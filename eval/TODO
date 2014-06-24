@@ -1,0 +1,42 @@
+Copyright (c) 2011
+  Swinburne University of Technology, Melbourne, Australia
+  All rights reserved.
+Copyright (c) 2013
+  University of Oslo, Norway
+  All rights reserved.
+
+
+Released under the GNU General Public License version 2.
+
+David Hayes (davihay@ifi.uio.no or david.hayes@ieee.org)
+
+
+
+Introduction
+============
+
+This implementation of the TCP evaluation suite in NS2 is incomplete and has a
+number of short comings and areas for further work. This file itself is a work
+in progress, and will be updated as the implementation is tested.
+
+
+
+Tests with an incomplete implementation
+=======================================
+
+Goodput:
+
+  Currently the tmix based tests do not record the quantity of unique inorder
+  data received at the receivers. This requires changes to the tmix code to
+  provide this information. Instead the link throughput is used. Although this
+  does not include dropped packets, it does include ACKs and any duplicate
+  packets. This quantity is of particular interest in the "Impact on Standard
+  TCP tests"
+
+
+
+Tests yet to be Implemented
+==========================
+
+- Transients
+- Intra-protocol and inter-RTT fairness

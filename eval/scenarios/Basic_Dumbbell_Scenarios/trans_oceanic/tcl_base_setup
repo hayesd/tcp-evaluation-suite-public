@@ -1,0 +1,105 @@
+# -*- Mode:tcl -*-
+# Copyright (c) 2007  NEC Laboratories China.
+# All rights reserved.
+#
+# Copyright (c) 2010-2011
+#  Swinburne University of Technology, Melbourne, Australia
+#  All rights reserved.
+# Copyright (c) 2013
+#  University of Oslo, Norway
+#  All rights reserved.
+#
+# Released under the GNU General Public License version 2.
+#
+
+# Authors:
+# - Gang Wang (wanggang@research.nec.com.cn)
+# - Yong Xia   (xiayong@research.nec.com.cn)
+#
+# Revised and updated
+# - David Hayes (davihay@ifi.uio.no david.hayes@ieee.org)
+#
+# This file is for dumb_bell simulation settings.
+#
+#
+#            Node_1                                      Node_4 
+#                 \                                    / 
+#                  \            central link          / 
+#          Node_2 --- Router_1 -------------- Router_2 --- Node_5 
+#                  /                                  \ 
+#                 /                                    \ 
+#            Node_3                                      Node_6 
+#    
+#                     Fig 1. A Dumb-bell topology. 
+#
+################## Basic Scenario: Trans-Oceanic #################################
+#
+#
+# Topology setting
+#
+# cntlnk bandwidth in Mbps [r1-r2 r2-r1]
+set cntlnk_bw [list 1000 1000]
+# edge link delay, (each way n1-r1 r1-n1 n2-r1 .... n6-r2 r2-n6)
+set edge_delay [list 0 0 12 12 25 25 2 2 37 37 75 75]
+# edge link bandwidth (as for edge_delay)
+set edge_bw [list 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000]
+set core_delay 65		;# one way delay (ms) of the cntlnk 
+set buffer_length [list 165 165]	;# cntlnk buffer length in ms (r1, r2)
+################################################################################
+#
+# Traffic setting
+#
+set useAQM 0			;# not to use AQM in routers
+set Test_TCP Sack1		;# Set default TCP parameters according to this scheme
+set tmix_agent_type "one-way"   ;# This needs to match the TCP_scheme
+#
+# one trace file for each tmix flow
+set tmix_base_cv_name [list "$tmix_cv_dir/r4s1" \
+			   "$tmix_cv_dir/r4s2"  \
+			   "$tmix_cv_dir/r4s3" \
+			   "$tmix_cv_dir/r5s1" \
+			   "$tmix_cv_dir/r5s2" \
+			   "$tmix_cv_dir/r5s3" \
+			   "$tmix_cv_dir/r6s1" \
+			   "$tmix_cv_dir/r6s2" \
+			   "$tmix_cv_dir/r6s3" ];
+#
+# Simulation scaling and prefilling parameters
+set maxRTT [expr ([join $buffer_length +]+100.0+$core_delay)*2.0/1000.0] ;#see edge and base delays above
+set TargetDirection "R" ;#F - forward or R - reverse
+# Default names for experiments to iterate through
+array set ExperimentNames {
+    1 60pcnt
+    2 85pcnt
+    3 110pcnt
+}
+# total testing time in sec (total simulation time is test_time + warmup)
+array set TestTime {
+    60pcnt   82.0
+    85pcnt  252.0
+    110pcnt 326.0 
+}
+array set Warmup {
+    60pcnt   140.0
+    85pcnt    64.0
+    110pcnt   82.0
+}
+array set Prefill_t {
+    60pcnt   89.1
+    85pcnt  126.22
+    110pcnt 163.35
+}
+array set Prefill_si {
+    60pcnt   30.451
+    85pcnt   69.93
+    110pcnt 130.56
+}
+array set Scale {
+    60pcnt  0.5179
+    85pcnt  0.3091
+    110pcnt 0.2
+}
+
+#adjustment for accelerated startup calculation
+set Prefill_si_scale(60pcnt) 0.65
+set Prefill_si_scale(85pcnt) 0.9                                                                                                     

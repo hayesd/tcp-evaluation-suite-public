@@ -1,0 +1,114 @@
+# -*- Mode:tcl -*-
+# Copyright (c) 2007  NEC Laboratories China.
+# All rights reserved.
+#
+# Copyright (c) 2010-2011
+#  Swinburne University of Technology, Melbourne, Australia
+#  All rights reserved.
+# Copyright (c) 2013
+#  University of Oslo, Norway
+#  All rights reserved.
+#
+# Released under the GNU General Public License version 2.
+#
+
+# Authors:
+# - Gang Wang (wanggang@research.nec.com.cn)
+# - Yong Xia   (xiayong@research.nec.com.cn)
+#
+# Revised and updated
+# - David Hayes (davihay@ifi.uio.no or david.hayes@ieee.org)
+# - Dongxia Xu
+#
+#
+# This file is for dumb_bell simulation settings.
+#
+#
+#             Node_1       Node_3     Node_5       Node_7 
+#                 \            |          |           / 
+#                  \      A    |    B     |   C      /
+#                Router1 ---Router2---Router3--- Router4  
+#                  /           |          |          \ 
+#                 /            |          |           \ 
+#             Node_2       Node_4     Node_6       Node_8 
+#    
+# Node_1 <--> Node_8    
+# Node_2 <--> Node_3
+# Node_4 <--> Node_5
+# Node_6 <--> Node_7
+#
+#                     Fig 1. Multiple-bottleneck Scenario topology. 
+#
+#
+################## Basic Scenario: Access Link #################################
+#
+#
+# 1, topology setting
+#
+# cntlnk bandwidth in Mbps
+set cntlnk_bw [list 100 100]
+set per 0			;# cntlnk packet error pkts, range 0 to 1.
+# edge link delay, (each way n1-r1 r1-n1 n2-r1 .... n8-r4 r4-n8)
+set edge_delay [list 0 0 10 10 10 10 10 10 10 10 10 10 10 10 10 0 0]
+# edge link bandwidth (as for edge_delay)
+set edge_bw [list 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000]
+set core_delay 10	;# one way delay (ms) of the cntlnk 
+set buffer_length [list 60 60]	;# cntlnk buffer length in ms (median BDP)
+set num_cntlnk 3
+################################################################################
+#
+# traffic setting
+#
+set useAQM 0			;# not to use AQM in routers
+set TCP_scheme Sack1		;# Set default TCP parameters according to this scheme
+set tmix_agent_type "one-way"   ;# This needs to match the TCP_scheme
+#
+#
+### tmix
+set num_tmix_flow 4		;# number of tmix flows
+set tmix_pkt_size 1460          ;# default packet size. overriden by m record in cv files
+#
+# one trace file used by all 4 sources
+set tmix_base_cv_names [list "$tmix_cv_dir/r4s1"]
+#
+#
+# debug output files
+set tmix_debug_output [list "flow1" "flow2" "flow3" "flow4"]
+#
+# Simulation scaling and prefilling parameters
+set maxRTT [expr ([join $buffer_length +]+100.0+$core_delay)*2.0/1000.0] ;#see edge and base delays above
+set TargetDirection "R" ;#F - forward or R - reverse
+# Default names for experiments to iterate through
+array set ExperimentNames {
+    1 60pcnt
+    2 80pcnt
+    3 100pcnt
+}
+array set TestTime {
+    60pcnt   333.0
+    80pcnt  1809.0
+    100pcnt 1246.0
+}
+array set Warmup {
+    60pcnt  240.0
+    80pcnt  195.0
+    100pcnt  35.0
+}
+array set Prefill_t {
+    60pcnt  41.4
+    80pcnt  55.2
+    100pcnt 69.0
+}
+array set Prefill_si {
+    60pcnt   6.827
+    80pcnt   6.858
+    100pcnt 13.740
+}
+array set Scale {
+    60pcnt  1.1904
+    80pcnt  0.9867
+    100pcnt 0.7222
+}
+
+
+

@@ -1,0 +1,165 @@
+# -*- Mode:tcl -*-
+# Copyright (c) 2010-2011
+#  Swinburne University of Technology, Melbourne, Australia
+#  All rights reserved.
+# Copyright (c) 2013
+#  University of Oslo, Norway
+#  All rights reserved.
+#
+#
+#
+# Released under the GNU General Public License version 2.
+#
+# Author
+#  - David Hayes (davihay@ifi.uio.no or david.hayes@ieee.org)
+#
+# Note that inital work on this suite was done by:
+# - Gang Wang (wanggang@research.nec.com.cn)
+# - Yong Xia   (xiayong@research.nec.com.cn)
+#
+
+# (see http://tools.ietf.org/html/draft-irtf-tmrg-tests-03>)
+#
+#              T_n2                        T_n4
+#               |                           |
+#               |                           |
+#         T_n1  |                           |  T_n3
+#            \  |                           | /
+#             \ |                           |/
+#      B_n1--- R1--------------------------R2--- B_n4
+#             / |                           |\
+#            /  |                           | \
+#        B_n2   |                           |  B_n5
+#               |                           |
+#              B_n3                        B_n6
+#
+#               Figure: Dumbbell test topology
+# 
+# Where Test TCP source 1 is connected T_n1 to T_n3
+# and test TCP source 2 is connected T_n2 to T_n3
+#
+################## Basic Scenario: Access Link #################################
+#
+#
+# Topology setting
+#
+# cntlnk bandwidth in Mbps [r1-r2 r2-r1]
+# edge link delay, (each way n1-r1 r1-n1 n2-r1 .... n6-r2 r2-n6)
+set edge_delay [list 0 0 12 12 25 25 2 2 37 37 75 75]
+# edge link bandwidth (as for edge_delay)
+set edge_bw [list 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000]
+set core_delay 2		;# one way delay (ms) of the cntlnk 
+set per 0			;# cntlnk packet error pkts, range 0 to 1.
+################################################################################
+#
+# Traffic setting
+#
+set useAQM 0			;# not to use AQM in routers
+set Test_TCP Sack1		;# Set default TCP parameters according to this scheme
+set tmix_agent_type "one-way"   ;# This needs to match the TCP_scheme
+#
+# one trace file for each tmix flow
+set tmix_base_cv_name [list "$tmix_cv_dir/r4s1" \
+			   "$tmix_cv_dir/r4s2"  \
+			   "$tmix_cv_dir/r4s3" \
+			   "$tmix_cv_dir/r5s1" \
+			   "$tmix_cv_dir/r5s2" \
+			   "$tmix_cv_dir/r5s3" \
+			   "$tmix_cv_dir/r6s1" \
+			   "$tmix_cv_dir/r6s2" \
+			   "$tmix_cv_dir/r6s3" ];
+#
+# Simulation scaling and prefilling parameters
+
+set TargetDirection "R" ;#F - forward or R - reverse
+
+# set up experiment names and default Test delays
+#    56kbps {0.056 0.056}
+# note that 56kbps 10% bg traffic is infeasible with this setup
+array set cntlnk_bws {
+    10Mbps {10 10}
+    1Gbps  {1000 1000}
+}
+
+# the scales are specific for each run as the traffic is different
+#    56kbps {15810.243 2390.00 5660.22}
+array set scales {
+    10Mbps {237.86 280.799 290.0}
+    1Gbps  {3.5 3.5 3.5}
+}
+# cntlnk buffer length in ms (r1, r2) (median BDP, except for 56kbsp)
+#    56kbps {1500 1500}
+array set buffers {
+    10Mbps {102 102}
+    1Gbps  {102 102}
+}
+# simulation time
+#    56kbps 1500
+array set ttimes {
+    10Mbps 600
+    1Gbps  600
+}
+#pfs is only used when finding a target rate
+#    56kbps 0.1
+array set p_t {
+    10Mbps 600.0
+    1Gbps  200.0
+}
+array set pfs {
+    10Mbps 0.15
+    1Gbps  0.2
+}
+
+#ugly fudge factor due to difficulty with such low loads and short times
+array set tlfs {
+    10Mbps,rtt_1 1.4
+    10Mbps,rtt_2 1.7
+    10Mbps,rtt_3 1.7
+    1Gbps,rtt_1  1.0
+    1Gbps,rtt_2  1.0
+    1Gbps,rtt_3  1.0
+}
+
+# Setup of test source link delay for the 3 rtt experiments
+#
+# Array of link delays of the test TCP sources
+# were the index 1,2,3 and 4 correspond to the
+# links connected to n? in the figure above.
+array set rtts {
+    rtt_1 {1 0 2 0 3 38 4 38}
+    rtt_2 {1 23 2 12 3 35 4 1}
+    rtt_3 {1 12 2 23 3 1 4 35}
+}
+array set runs {
+    run_1 0
+    run_2 1
+    run_3 2
+}
+#shuffling random number offset for each simulation run
+array set rstrm {
+    run_1 1
+    run_2 11
+    run_3 21
+}
+set exp_num 0
+foreach run [lsort -increasing [array names runs]]  {
+    foreach bw [lsort -increasing [array names cntlnk_bws]] {
+	foreach rtt [lsort -increasing [array names rtts]] {
+	    incr exp_num
+	    set ExperimentNames($exp_num)  ${bw}_${rtt}_$run
+	    set StartStream($ExperimentNames($exp_num)) $rstrm($run)
+	    set Scale($ExperimentNames($exp_num)) [lindex $scales($bw) $runs($run)]
+	    set TestDelays($ExperimentNames($exp_num)) $rtts($rtt)
+	    set CntlnkBws($ExperimentNames($exp_num)) $cntlnk_bws($bw)
+	    set Buffers($ExperimentNames($exp_num)) $buffers($bw)
+	    set TestTime($ExperimentNames($exp_num)) $ttimes($bw)
+#	    set Warmup($ExperimentNames($exp_num)) $wu($bw)
+	    set Prefill_t($ExperimentNames($exp_num)) $p_t($bw)
+	    set TargetLoadFactor($ExperimentNames($exp_num)) $tlfs($bw,$rtt)
+#	    set Prefill_si($ExperimentNames($exp_num)) $p_s($bw)
+	    set Prefill_si_scale($exp_num) $pfs($bw)
+	    # maxrtt is for the background traffic
+	    set MaxRTT($ExperimentNames($exp_num)) [expr ([join $buffers($bw) +]+(100.0+$core_delay)*2.0)/1000.0]
+	}
+    }
+}

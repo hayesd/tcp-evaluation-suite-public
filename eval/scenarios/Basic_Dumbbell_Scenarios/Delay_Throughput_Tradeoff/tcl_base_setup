@@ -1,0 +1,99 @@
+# -*- Mode:tcl -*-
+# Copyright (c) 2007  NEC Laboratories China.
+# All rights reserved.
+#
+# Copyright (c) 2010-2011
+#  Swinburne University of Technology, Melbourne, Australia
+#  All rights reserved.
+#
+# Copyright (c) 2013
+#  University of Oslo, Norway
+#  All rights reserved.
+##
+# Released under the GNU General Public License version 2.
+#
+
+# Authors:
+# - Gang Wang (wanggang@research.nec.com.cn)
+# - Yong Xia   (xiayong@research.nec.com.cn)
+#
+# Revised and updated
+# - David Hayes (davihay@ifi.uio.no or david.hayes@ieee.org)
+#
+#
+# This file is for dumb_bell simulation settings.
+#
+#
+#            Node_1                                      Node_4 
+#                 \                                    / 
+#                  \            central link          / 
+#          Node_2 --- Router_1 -------------- Router_2 --- Node_5 
+#                  /                                  \ 
+#                 /                                    \ 
+#            Node_3                                      Node_6 
+#    
+#                         Dumb-bell topology
+#
+#
+################## Basic Scenario: Access Link #################################
+#
+#
+# Topology setting
+#
+# cntlnk bandwidth in Mbps [r1-r2 r2-r1]
+set cntlnk_bw [list 100 100]
+# edge link delay, (each way n1-r1 r1-n1 n2-r1 .... n6-r2 r2-n6)
+set edge_delay [list 0 0 12 12 25 25 2 2 37 37 75 75]
+# edge link bandwidth (as for edge_delay)
+set edge_bw [list 100 100 100 100 100 100 100 100 100 100 100 100]
+set core_delay 2		;# one way delay (ms) of the cntlnk 
+set buffer_length [list 102 102]	;# cntlnk buffer length in ms (r1, r2) (median BDP)
+################################################################################
+#
+# Traffic setting
+#
+set test_time 300		;# total testing time in sec (total simulation time is test_time + warmup)
+set useAQM 0			;# not to use AQM in routers
+set Test_TCP Sack1		;# Set default TCP parameters according to this scheme
+set tmix_agent_type "one-way"   ;# This needs to match the TCP_scheme
+#
+# one trace file for each tmix flow
+set tmix_base_cv_name [list "$tmix_cv_dir/r4s1" "$tmix_cv_dir/r4s2"  "$tmix_cv_dir/r4s3" "$tmix_cv_dir/r5s1" "$tmix_cv_dir/r5s2" "$tmix_cv_dir/r5s3" "$tmix_cv_dir/r6s1" "$tmix_cv_dir/r6s2"  "$tmix_cv_dir/r6s3" ];
+#
+set maxRTT [expr ([join $buffer_length +]+100.0+$core_delay)*2.0/1000.0] ;#see edge and base delays above
+set TargetDirection "R" ;#F - forward or R - reverse
+#
+set Std_Scale 2.774501
+################## Basic Scenario: Access Link Moderate Congestion #################
+# Names for experiments to iterate through
+set droptail_buffer_proportions [list 0.10 0.20 0.50 1.0 2.0 ]
+#set AQM_target_proportions [list 0.025 0.05 0.10 0.2 0.5 ]
+#set AQM_schemes [list RED REM ]
+set exp_num 0
+foreach bp $droptail_buffer_proportions {
+    incr exp_num
+    set ExperimentNames($exp_num) DropTail_$bp
+    # scale set for NewReno moderate congestion on access-link
+    set AQMtarget($ExperimentNames($exp_num)) 0
+    set Scale($ExperimentNames($exp_num)) $Std_Scale
+    set BufferLength($ExperimentNames($exp_num)) \
+	[list [expr [lindex $buffer_length 0] * $bp] \
+	     [expr [lindex $buffer_length 1] * $bp] ]
+}
+incr exp_num
+#
+# No AQM for the moment
+#
+# foreach aq $AQM_schemes {
+#     foreach bt $AQM_target_proportions { 
+# 	set ExperimentNames($exp_num) ${aq}_$bt
+# 	# scale set for NewReno moderate congestion on access-link
+# 	set Scale($ExperimentNames($exp_num)) $Std_Scale
+# 	set AQMtarget($ExperimentNames($exp_num)) $bt
+# 	set BufferLength($ExperimentNames($exp_num)) $buffer_length
+# 	incr exp_num
+#     }
+# }
+# Number of experiments to iterate through 
+set NumExperiments [expr $exp_num - 1]
+

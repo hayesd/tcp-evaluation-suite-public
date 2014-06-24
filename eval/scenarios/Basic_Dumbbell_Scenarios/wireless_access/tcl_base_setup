@@ -1,0 +1,417 @@
+# -*- Mode:tcl -*-
+# Copyright (c) 2011
+#  Swinburne University of Technology, Melbourne, Australia
+#  All rights reserved.
+# Copyright (c) 2013
+#  University of Oslo, Norway
+#  All rights reserved.
+#  
+#
+# Released under the GNU General Public License version 2.
+#
+# Author:
+# - David Hayes (davihay@ifi.uio.no david.hayes@ieee.org)
+#
+#
+# Node_1----Wireless_1..                                      Node_4 
+#                      :.                                    / 
+#                       :...   Base   central link          / 
+# Node_2----Wireless_2 ....:..Station-------------- Router_2 --- Node_5
+#                       ...: (Router 1)                     \ 
+#                      .:                                    \ 
+# Node_3----Wireless_3.:                                      Node_6 
+#
+#                            Topology 1
+#
+#
+#
+#
+# Node_1....Bs_1                                  Node_4 
+#               \                                / 
+#                \         central link         / 
+# Node_2....Bs_2--Router 1------------- Router_2 --- Node_5
+#                /                              \ 
+#               /                                \ 
+# Node_3....Bs_3                                  Node_6 
+#
+#      Topology 2 - Bs_1-2 at same location using same channel
+#
+#
+# 
+# Node_1                                       Node_4 
+#       :.                                    / 
+#        :...   Base    central link         / 
+# Node_2....:..Station-------------- Router_2 --- Node_5
+#         ...: (Router 1)                    \ 
+#        .:                                   \ 
+# Node_3.:                                     Node_6 
+#    
+#       Topology 3 - Delays are inserted into the LL layer of the wireless nodes
+#
+#
+#                         Wireless Dumb-bell topologies 
+#
+# Note that three topologies have been implemented. The first one follows the
+# original tmrg draft, but doesn't work properly in ns2 due to routing
+# issues. The second topology puts the edge delays between the base stations and
+# router 1. The third topology adds the delay to the ll layer processing of the
+# wireless nodes. The third topology has been adopted for these tests, with code
+# for the other 2 left in create_topology for reference.
+#
+#
+# Monitoring:
+#
+# In this scenario, the bottleneck is not on the central link. The "bottleneck"
+# loss is inferred from the packets that do not make it between r2 and the
+# wireless nodes. The central link statistics are still given.
+#
+################## Basic Scenario: Wireless Access #################################
+#
+# Topology setting
+#
+# cntlnk bandwidth in Mbps [r1-r2 r2-r1]
+set cntlnk_bw [list 100 100]
+# edge link delay, (each way n1-w1 w1-n1 n2-w1 .... n6-r2 r2-n6)
+# or edge link delay, (each way bs1-r1 w1-bs1 bs2-r1 .... n6-r2 r2-n6)
+# or edge link delay, (each way n1_ll n1_ll n2_ll .... n6-r2 r2-n6)
+set edge_delay [list 0 0 12 12 25 25 2 2 37 37 75 75]
+# edge link bandwidth (as for edge_delay)
+set edge_bw [list 100 100 100 100 100 100 100 100 100 100 100 100]
+# wireless rates (802.11g)
+# note to change actual modulation rates see create_topology.tcl
+set w_datarate 54
+#Although the peak rate is 54, the actual data rate is closer to 7 in this test
+set BottleneckCapacity 6
+#
+set core_delay 2			;# one way delay (ms) of the btnk 
+set buffer_length [list 102 102]	;# cntlnk buffer length in ms (r1, r2)
+set if_wireless 3                       ;# wireless scenario
+################################################################################
+#
+# Traffic setting
+#
+# one trace file for each tmix flow
+set tmix_base_cv_name [list "$tmix_cv_dir/r4s1" \
+			   "$tmix_cv_dir/r4s2"  \
+			   "$tmix_cv_dir/r4s3" \
+			   "$tmix_cv_dir/r5s1" \
+			   "$tmix_cv_dir/r5s2" \
+			   "$tmix_cv_dir/r5s3" \
+			   "$tmix_cv_dir/r6s1" \
+			   "$tmix_cv_dir/r6s2" \
+			   "$tmix_cv_dir/r6s3" ];
+set useAQM 0			;# not to use AQM in routers
+set Test_TCP Sack1		;# Set default TCP parameters according to this scheme
+set tmix_agent_type "one-way"   ;# This needs to match the TCP_scheme
+#
+#
+# Simulation scaling and prefilling parameters
+set maxRTT [expr ([join $buffer_length +]+100.0+$core_delay)*2.0/1000.0] ;#see edge and base delays above (204ms)
+# link node in the target direction.
+set TargetDirection "B"	;#F - forward or R - reverse or B - both for wifi/shared media
+#
+#
+######## Wireless needs extra monitoring #############################
+#
+#tmix_L left-hand side nodes, tmix_R right-hand side nodes
+#mobile - mobile nodes.
+proc get_topology_vars {} {
+    # create variables in base namespace
+    variable tmix_L
+    variable tmix_R
+    variable mobile
+    global topo if_wireless
+    array set tmix_L [ $topo array get tmix_L ]
+    array set tmix_R [ $topo array get tmix_R ]
+    if { $if_wireless == 1 } {
+	array set mobile [ $topo array get mobile ]
+    }
+}
+set Qstatsampleinterval 0.1
+if { $if_wireless >= 1 } {
+    $ns at 0.0 get_topology_vars
+}
+$ns use-newtrace
+######### Set up Flow monitors and classifiers ##########################
+# note that the Dest hash classifier doesn't work properly, so using SrcDest
+set cmon(F) [ $ns makeflowmon SrcDest ]
+set cmon(R) [ $ns makeflowmon SrcDest ]
+if { $if_wireless > 1 } {
+    # this needs to be set up before ns starts
+    for { set w 0 } { $w < $num_tmix_node } { incr w } {
+	foreach dir { F R } {
+	    set wmon($w,$dir) [ $ns makeflowmon SrcDest ]
+	    $wmon($w,$dir) set enable_drop_ 0
+	    $wmon($w,$dir) set enable_edrop_ 0
+	}
+    }
+}
+#array set wmon {}
+#
+# Insert special snoop Q monitors for the wireless node
+proc attach-wirelessfmons {wirelessnode fmonD fmonU } {
+    set ll [$wirelessnode set ll_(0)]
+    set ifq [$wirelessnode set ifq_(0)]
+    set mac [$wirelessnode set mac_(0)]
+
+    set isnoopD [new SnoopQueue/In]
+    set osnoopD [new SnoopQueue/Out]
+
+    $ll down-target $isnoopD
+    $isnoopD target $ifq
+    $ifq target $osnoopD
+    $osnoopD target $mac
+
+    $isnoopD set-monitor $fmonD
+    $osnoopD set-monitor $fmonD
+
+    set isnoopU [new SnoopQueue/In]
+    set osnoopU [new SnoopQueue/Out]
+
+    $mac up-target $isnoopU
+    #dummy for compatibility
+    $isnoopU target $osnoopU
+    $osnoopU target $ll
+
+    $isnoopU set-monitor $fmonU
+    $osnoopU set-monitor $fmonU
+
+}
+
+# reset flow monitors
+proc resetWmons {CntMon WirelessMon} {
+    upvar $CntMon cmon
+    upvar $WirelessMon wmon
+    global ns cntlnk Qstatsampleinterval
+    global tmix_L num_tmix_node mobile if_wireless
+
+    $ns attach-fmon [ $ns link $cntlnk(0) $cntlnk(1) ] $cmon(F)
+    $ns attach-fmon [ $ns link $cntlnk(1) $cntlnk(0) ] $cmon(R)
+    
+    if { $if_wireless == 1 } {
+	for { set w 0 } { $w < $num_tmix_node } { incr w } {
+	    set wmon($w,F) [$ns monitor-queue  $tmix_L($w) $mobile($w) stdout $Qstatsampleinterval ]
+	    set wmon($w,R) [$ns monitor-queue  $mobile($w) $tmix_L($w) stdout $Qstatsampleinterval ]
+	}
+	foreach dir { F R } {
+	    $cmon($dir) reset
+	    for { set w 0 } { $w < $num_tmix_node } { incr w } {
+		$wmon($w,$dir) reset
+	    }
+	}
+    } else {
+	for { set w 0 } { $w < $num_tmix_node } { incr w } {
+	    attach-wirelessfmons $tmix_L($w) $wmon($w,F) $wmon($w,R)
+	    $wmon($w,F) reset
+	    $wmon($w,R) reset
+	}
+    }
+}
+#
+#
+# Wireless incremental statistics
+#
+proc monitorWirelessflows {CntMon WirelessMon} {
+    upvar $CntMon cmon
+    upvar $WirelessMon wmon
+    global ns Incremental_display_interval display_counter TIME
+    global prevstat tmix_R tmix_L 
+    global cntlnk_bw num_tmix_node w_datarate
+    global scale findtarget TargetDirection targetload
+    global if_wireless nsoutfd_ test_time
+    global pcntLoad  pcntBdep pcntPLoss
+
+    set measuretime [expr [$ns now] - $TIME]
+    # set up classifiers
+    foreach dir { F R } {
+	set cfc($dir) [$cmon($dir) classifier]
+    }
+    for { set w 0 } { $w < $num_tmix_node } { incr w } {
+	foreach dir { F R } {
+	    set wfc($w,$dir) [$wmon($w,$dir) classifier]
+	}
+    }
+    ########## collect wireless traffic stats  based on tmix_L source ##########
+    #
+    # This collects more statistics than we currently use, but they may be of use
+    # at some time. Traffic per mobile is traced.
+    # 
+    foreach tp { pkt byte } pre { p b } {
+	for { set l 0 } { $l < $num_tmix_node } { incr l } {
+	    foreach act { arr dep } var { arrivals_ departures_ } {
+		if { $if_wireless == 1 } {
+		    set Wcurrstat(w$l,$tp,$act,F) [ $wmon($l,F) set $pre$var ]
+		    set Wcurrstat(w$l,$tp,$act,R) [ $wmon($l,R) set $pre$var ]
+		} else {
+		    set Wcurrstat(w$l,$tp,$act,F) 0
+		    set Wcurrstat(w$l,$tp,$act,R) 0
+		}
+		set Ccurrstat(w$l,$tp,$act,F) 0
+		set Ccurrstat(w$l,$tp,$act,R) 0
+		for { set r 0 }  { $r < $num_tmix_node } { incr r } {
+		    if { $if_wireless > 1 } {
+			# this is necessary to exclude the ARP packets
+			set WflF [$wfc($l,F) lookup auto [$tmix_L($l) address?] [$tmix_R($r) address?] 0]
+			set WflR [$wfc($l,R) lookup auto [$tmix_R($r) address?] [$tmix_L($l) address?] 0]
+			if { $WflF != "" } {
+			    set Wcurrstat(w$l,$tp,$act,F) \
+				[expr $Wcurrstat(w$l,$tp,$act,F) + [ $WflF set $pre$var ] ]
+			}
+			if { $WflR != "" } {
+			    set Wcurrstat(w$l,$tp,$act,R) \
+				[expr $Wcurrstat(w$l,$tp,$act,R) + [ $WflR set $pre$var ] ]
+			}
+		    }
+		    set CflF [$cfc(F) lookup auto [$tmix_L($l) address?] [$tmix_R($r) address?] 0]
+		    set CflR [$cfc(R) lookup auto [$tmix_R($r) address?] [$tmix_L($l) address?] 0]
+		    if { $CflF != "" } {
+			set Ccurrstat(w$l,$tp,$act,F) \
+			    [expr $Ccurrstat(w$l,$tp,$act,F) + [ $CflF set $pre$var ] ]
+		    }
+		    if { $CflR != "" } {
+			set Ccurrstat(w$l,$tp,$act,R) \
+			    [expr $Ccurrstat(w$l,$tp,$act,R) + [ $CflR set $pre$var ] ]
+		    }
+		}
+	    }
+	}
+    }
+    ######################### Infer stats on logical link #####################
+    # For this scenario, for measurment purposes, the bottleneck link is taken
+    # to be the logical link between the Xs shown below.
+    #
+    #           logical link
+    #       X--------------------X
+    #       |                    | 
+    #       v                    |
+    #   n1--+-- .                |  _n4 
+    #            :               V /
+    #   n2--+-- .:.C0-------------C1---n5
+    #            :                 \_
+    #   n3--+-- .                    n6
+    #
+    # Since NS doesn't have a simple way of measuring packet loss on the
+    # wireless link, dropped packets are inferred based on flow arrivals and
+    # departures. This gives a good estimate of the average loss rate over a
+    # long enough period (long compared with the transit delay of packets)
+    #
+    foreach tp { pkt byte } {
+	set currstat($tp,arr,F) 0
+	set currstat($tp,arr,R) 0
+	set currstat($tp,dep,F) 0
+	set currstat($tp,dep,R) 0
+	for { set l 0 } { $l < $num_tmix_node } { incr l } {
+	    set currstat($tp,arr,F) [expr $currstat($tp,arr,F) + $Wcurrstat(w$l,$tp,dep,F) ] 
+	    set currstat($tp,arr,R) [expr $currstat($tp,arr,R) + $Ccurrstat(w$l,$tp,arr,R) ]
+	    set currstat($tp,dep,F) [expr $currstat($tp,dep,F) + $Ccurrstat(w$l,$tp,dep,F) ] 
+	    set currstat($tp,dep,R) [expr $currstat($tp,dep,R) + $Wcurrstat(w$l,$tp,arr,R) ]
+	}
+	# inferr loss
+	set  currstat($tp,drop,F) [expr $currstat($tp,arr,F) - $currstat($tp,dep,F) ]
+	set  currstat($tp,drop,R) [expr $currstat($tp,arr,R) - $currstat($tp,dep,R) ]
+	# if out due to missed packets
+	if { $currstat($tp,drop,F) < 0 } {
+	    set  currstat($tp,drop,F) 0
+	}  
+	if { $currstat($tp,drop,R) < 0 } {
+	    set  currstat($tp,drop,R) 0
+	}
+    }
+    #
+    # Incremental stats, and save currstats to prevstats
+    #
+    foreach tp { pkt byte } {
+	foreach act { arr dep drop } {
+	    foreach dir { F R } {
+		set incrstat($tp,$act,$dir) \
+		    [expr $currstat($tp,$act,$dir) - $prevstat($tp,$act,$dir)]
+		set prevstat($tp,$act,$dir) $currstat($tp,$act,$dir)
+	    }
+	}
+    }
+
+    # added from test_scenario.tcl
+    foreach dir { F R } dn { 0 1 } {
+	if { $incrstat(pkt,arr,$dir) > 0 } {
+	    set pcntPdrop($dir) \
+		[expr 100.0 * $incrstat(pkt,drop,$dir) / $incrstat(pkt,arr,$dir)]
+	} else {
+	    set pcntPdrop($dir) 0
+	}
+	set bbw [lindex $cntlnk_bw $dn]
+	if { $incrstat(byte,dep,$dir) > 0 } {
+	    set pcntBdepart($dir) \
+		[expr 100.0*$incrstat(byte,dep,$dir)*8.0/$Incremental_display_interval/$bbw/1e6]
+	} else {
+	    set pcntBdepart($dir) 0
+	}
+	if { $incrstat(byte,arr,$dir) > 0 } {
+	    set pcntLd($dir) \
+		[expr 100.0 * $incrstat(byte,arr,$dir)*8.0/$Incremental_display_interval/$bbw/1e6]
+	} else {
+		    set pcntLd($dir) 0
+	}
+	lappend pcntBdep($dir) $pcntBdepart($dir)
+	lappend pcntLoad($dir) $pcntLd($dir)
+	lappend pcntPloss($dir) $pcntPdrop($dir)
+    }
+
+   #################### print progress statistics ##############################
+     foreach dir { F R } {
+	 if { $incrstat(pkt,arr,$dir) > 0 } {
+	     set llloss($dir) [expr 100.0*$incrstat(pkt,drop,$dir)/$incrstat(pkt,arr,$dir)]
+	 } else {
+	    set llloss($dir) 0
+	 }
+     }
+    puts $nsoutfd_ [format "Time %4.1f Target %s, Incremental Stats Arrival Mbps (F/R): Total %6.3g / %6.3g, Logical Link Loss %5.2f %% / %5.2f %%" \
+			[expr $TIME+$display_counter*$Incremental_display_interval] \
+			$TargetDirection \
+			[expr $incrstat(byte,arr,F) *8.0/1e6/$Incremental_display_interval] \
+			[expr $incrstat(byte,arr,R) *8.0/1e6/$Incremental_display_interval] \
+			$llloss(F) $llloss(R) ]
+
+    flush $nsoutfd_
+
+    ############## set up for next call
+    set display_counter [ expr $display_counter + 1 ]
+    $ns at [ expr $TIME+$display_counter * $Incremental_display_interval ] "monitorWirelessflows cmon wmon"
+}
+#
+
+# Standard scale values
+array set ExperimentNames {
+    1 60pcnt
+    2 85pcnt
+    3 110pcnt
+}
+# total testing time in sec (total simulation time is test_time + warmup)
+# total testing time in sec (total simulation time is test_time + warmup)
+array set TestTime {
+    60pcnt  4147.0
+    85pcnt  5397.0
+    110pcnt 1797.0
+}
+array set Warmup {
+    60pcnt    20.0
+    85pcnt    20.0
+    110pcnt  620.0
+}
+array set Prefill_t {
+    60pcnt   0.0
+    85pcnt   0.0
+    110pcnt  0.0
+}
+array set Prefill_si {
+    60pcnt  0.0
+    85pcnt  0.0
+    110pcnt 0.0
+}
+array set Scale {
+    60pcnt  105.66
+    85pcnt   85.93
+    110pcnt  60.17
+}
+
+
+

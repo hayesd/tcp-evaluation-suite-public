@@ -1,0 +1,97 @@
+# -*- Mode:tcl -*-
+# Copyright (c) 2010-2011
+#  Swinburne University of Technology, Melbourne, Australia
+#  All rights reserved.
+# Copyright (c) 2013
+#  University of Oslo, Norway
+#  All rights reserved.
+#
+#
+# Released under the GNU General Public License version 2.
+#
+# Author
+#  - David Hayes (davihay@ifi.uio.no or david.hayes@ieee.org)
+#
+# Note that inital work on this suite was done by:
+# - Gang Wang (wanggang@research.nec.com.cn)
+# - Yong Xia   (xiayong@research.nec.com.cn)
+#
+#              S_1                                  S_4
+#              T_1                                  T_4 
+#                 \                                / 
+#                  \        central link          / 
+#          S_2 --- Router_1 -------------- Router_2 --- S_5 
+#          T_2     /                              \     T_5
+#                 /                                \ 
+#              S_3                                  S_6
+#              T_3                                  T_6
+#
+#               Figure: Dumbbell test topology
+# 
+# Where the "S" nodes are standard TCP, 
+# and the "T" nodes are the TCP variety under test
+#
+# Note that each S and T node has its own link to the Router with identical
+# delay and bandwidth characteristics
+#
+# This test is the base test, testing NewReno Sack with itself
+#
+#
+# Topology setting
+#
+# cntlnk bandwidth in Mbps [r1-r2 r2-r1]
+set cntlnk_bw [list 100 100]
+# edge link delay, (each way n1-r1 r1-n1 n2-r1 .... n6-r2 r2-n6)
+set edge_delay [list 0 0 12 12 25 25 2 2 37 37 75 75]
+# edge link bandwidth (as for edge_delay)
+set edge_bw [list 100 100 100 100 100 100 100 100 100 100 100 100]
+set core_delay 2		;# one way delay (ms) of the cntlnk 
+set buffer_length [list 102 102]	;# cntlnk buffer length in ms (r1, r2) (median BDP)
+################################################################################
+#
+# Traffic setting
+#
+set useAQM 0			;# not to use AQM in routers
+set Test_TCP Sack1		;# Set default Test TCP parameters according to this scheme
+set Standard_TCP Sack1		;# Set default Standard TCP parameters according to this scheme
+set tmix_agent_type "one-way"   ;# This needs to match the TCP_scheme
+#
+# one trace file for each tmix flow
+set tmix_base_cv_name [list "$tmix_cv_dir/r4s1" \
+			   "$tmix_cv_dir/r4s2"  \
+			   "$tmix_cv_dir/r4s3" \
+			   "$tmix_cv_dir/r5s1" \
+			   "$tmix_cv_dir/r5s2" \
+			   "$tmix_cv_dir/r5s3" \
+			   "$tmix_cv_dir/r6s1" \
+			   "$tmix_cv_dir/r6s2" \
+			   "$tmix_cv_dir/r6s3" ];
+#
+set maxRTT [expr ([join $buffer_length +]+100.0+$core_delay)*2.0/1000.0] ;#see edge and base delays above
+set TargetDirection "R" ;#F - forward or R - reverse
+array set ExperimentNames {
+    1 50_pcnt_load
+    2 100_pcnt_load
+}
+# total testing time in sec (total simulation time is test_time + warmup + prefill_t)
+array set TestTime {
+    50_pcnt_load  363.0
+   100_pcnt_load  382.0
+}
+array set Warmup {
+    50_pcnt_load  96.0 
+   100_pcnt_load  46.0
+}
+array set Prefill_t {
+    50_pcnt_load  45.90
+   100_pcnt_load  91.80
+}
+array set Prefill_si {
+    50_pcnt_load  14.61
+   100_pcnt_load  22.97
+}
+array set Scale {
+    50_pcnt_load  13.587
+   100_pcnt_load   5.780
+}
+

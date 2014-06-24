@@ -1,0 +1,24 @@
+# Copyright (c) 2011
+#  Swinburne University of Technology, Melbourne, Australia
+#  All rights reserved.
+## Copyright (c) 2013
+#  University of Oslo, Norway
+#  All rights reserved.
+
+# Released under the GNU General Public License version 2.
+#
+# (see http://tools.ietf.org/html/draft-irtf-tmrg-tests-03>)
+# - David Hayes (davihay@ifi.uio.no or david.hayes@ieee.org)
+#
+################## Basic Scenario: Access Link NewReno #################
+#
+set TargetLoad(60pcnt) 60
+set TargetLoad(85pcnt) 85
+set TargetLoad(110pcnt) 110
+
+# TCP test variety 
+set Test_TCP Sack1
+
+### Iteration run variables will be added after here
+
+

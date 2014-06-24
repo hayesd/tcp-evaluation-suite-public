@@ -1,0 +1,82 @@
+#!/usr/local/bin/bash
+### or !/bin/bash
+# Copyright (c) 2011
+#  Swinburne University of Technology, Melbourne, Australia
+#  All rights reserved.
+#
+# Released under the GNU General Public License version 2.
+#
+# This script runs a particular TCP evaluation test (or all of them).
+# The ResultBaseDir is also the working directory.
+#
+#
+# Author:
+# - David Hayes (dahayes@swin.edu.au or david.hayes@ieee.org)
+#
+echo 
+echo
+if [ $# -lt 2 ]
+then
+    echo "$0 targetpath outfilename rm_old_tab"
+    exit 1
+fi
+targetdir=$1
+outfile=$2
+if [ $# -eq 3 ]
+then
+    if [ $3 -eq 1 ]
+    then
+	rm -f $outfile
+    fi
+fi
+
+echo '\begin{tabular}{|l|l|c|r|r|r|r|r|r|r|r|}' >> $outfile
+echo '\hline'  >> $outfile
+echo ' Algorithm & Congestion &' >>$outfile
+echo ' & \multicolumn{4}{|c|}{Link Throughput (bps)} ' >> $outfile
+echo ' & \multicolumn{4}{|c|}{\% Pkt loss} ' >> $outfile
+echo ' \\'  >> $outfile
+echo ' & & & t1 & t2 & t3 & t4 & t1 & t2 & t3 & t4 ' >> $outfile
+echo '\\\hline'  >> $outfile
+
+# order of suffixes
+fso=( no_congestion mild_congestion moderate_congestion )
+
+#foreach result file
+declare -a combinedfiles
+for fs in ${fso[@]}
+do
+    newrenofile=$targetdir/result_NewReno_$fs
+#    newrenofile=
+    otherfiles=`ls $targetdir/result_*_$fs | grep -vE '_NewReno_.*$'`
+    combinedfiles="$combinedfiles $newrenofile $otherfiles"
+done
+
+#for rfp in $targetdir/result_*
+for rfp in $combinedfiles
+do
+    rfn=${rfp//*\//}
+    # split file name into a list
+    rfi=${rfn//"_"/" "}
+    # make list an array
+    rfa=($rfi)
+    numlines=`cat $rfp | wc -l`
+    datalines=`echo "$numlines - 2" | bc`
+    echo "\multirow{3}{*}{${rfa[1]}} & \multirow{3}{*}{${rfa[2]}} " >> $outfile
+    for l in A B C
+    do
+	if [ $l = "A" ]
+	then
+	    echo " & $l " >> $outfile
+	else
+	    echo " & & $l " >> $outfile
+	fi
+	# print bps
+	tail -$datalines $rfp | awk 'BEGIN {FS=",";OFMT="%.3g"} { if ( $1 ~ /t/ && $2 ~ /'$l'/) { if ($4 > 0) { print " & "; print $4+0 } else { print " & " }}}' >> $outfile
+	# print %loss
+	tail -$datalines $rfp | awk 'BEGIN {FS=",";OFMT="%.3g"} { if ( $1 ~ /t/ && $2 ~ /'$l'/) { if ($6 > 0) { print " & "; print $8/$6*100 } else { print " & " }}}' >> $outfile
+	echo ' \\' >> $outfile
+    done
+    echo '\hline' >> $outfile
+done
+echo '\end{tabular}' >> $outfile

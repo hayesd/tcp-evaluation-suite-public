@@ -1,0 +1,93 @@
+#!/usr/local/bin/bash
+### or !/bin/bash
+# Copyright (c) 2011
+#  Swinburne University of Technology, Melbourne, Australia
+#  All rights reserved.
+#
+# Released under the GNU General Public License version 2.
+#
+# This script runs a particular TCP evaluation test (or all of them).
+# The ResultBaseDir is also the working directory.
+#
+#
+# Authors:
+# - David Hayes (dahayes@swin.edu.au or david.hayes@ieee.org)
+#
+echo 
+echo
+if [ $# -lt 2 ]
+then
+    echo "$0 targetpath outfilename rm_old_tab"
+    exit 1
+fi
+targetdir=$1
+outfile=$2
+if [ $# -eq 3 ]
+then
+    if [ $3 -eq 1 ]
+    then
+	rm -f $outfile
+    fi
+fi
+
+echo '\begin{tabular}{|l|l|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|}' >> $outfile
+echo '\hline'  >> $outfile
+echo ' Algorithm & Load ' >>$outfile
+echo ' & \multicolumn{4}{|c|}{Link Throughput (bps)} ' >> $outfile
+echo ' & \multicolumn{2}{|c|}{Gain} ' >> $outfile
+echo ' & \multicolumn{2}{|c|}{Loss} ' >> $outfile
+echo ' & E ' >> $outfile
+echo ' & \multicolumn{2}{|c|}{Q delay (s)} ' >> $outfile
+#echo ' & \multicolumn{2}{|c|}{Q size (B)} ' >> $outfile
+echo ' & \multicolumn{2}{|c|}{\% Pkt loss} ' >> $outfile
+echo ' \\'  >> $outfile
+echo ' & \multicolumn{1}{|c|}{(\%)} & \emph{Std} & Test & \emph{Std} & Test & & & & & $\frac{Test}{Ideal}$ & & & & \\' >> $outfile
+echo ' & & L->R & L->R & R->L & R->L & L->R & R->L & L->R & R->L & R->L & L->R & R->L & L->R & R->L ' >> $outfile
+echo '\\\hline'  >> $outfile
+
+# order of suffixes
+fso=( 50_pcnt_load 100_pcnt_load )
+
+#foreach result file
+declare -a combinedfiles
+for fs in ${fso[@]}
+do
+    newrenofile=$targetdir/result_NewReno_$fs
+    otherfiles=`ls $targetdir/result_*_$fs | grep -vE '_NewReno_.*$'`
+    combinedfiles="$combinedfiles $newrenofile $otherfiles"
+done
+
+#for rfp in $targetdir/result_*
+for rfp in $combinedfiles
+do
+    rfn=${rfp//*\//}
+    # split file name into a list
+    rfi=${rfn//"_"/" "}
+    # make list an array
+    rfa=($rfi)
+    TargetData=`tail -1 $rfp | awk 'BEGIN {FS=","} {print $19}'`
+    TestData=`tail -1 $rfp | awk 'BEGIN {FS=","} {print $10}'`
+    Efficiency=`echo "scale=3; $TestData / $TargetData" | bc` 
+    if [ ${rfa[1]} == "NewReno" ]
+    then
+	T_A_baseline_F=`tail -1 $rfp | awk 'BEGIN {FS=","} {print $1}'`
+	T_A_baseline_R=`tail -1 $rfp | awk 'BEGIN {FS=","} {print $2}'`
+	T_B_baseline_F=`tail -1 $rfp | awk 'BEGIN {FS=","} {print $3}'`
+	T_B_baseline_R=`tail -1 $rfp | awk 'BEGIN {FS=","} {print $4}'`
+	echo "\\emph{${rfa[1]}} & \\emph{${rfa[2]}} & \\emph{ " >> $outfile
+	tail -1 $rfp | awk 'BEGIN {FS=","; OFMT="%.3g"; OFS="} & \\emph{"} {print $1+0,$3+0,$2+0,$4+0,1,1,1,1,"'$Efficiency'",$13+0,$14+0,$17,$18 "}"}' >> $outfile
+    else
+	T_A_mix_F=`tail -1 $rfp | awk 'BEGIN {FS=","} {print $1}'`
+	T_A_mix_R=`tail -1 $rfp | awk 'BEGIN {FS=","} {print $2}'`
+	T_B_mix_F=`tail -1 $rfp | awk 'BEGIN {FS=","} {print $3}'`
+	T_B_mix_R=`tail -1 $rfp | awk 'BEGIN {FS=","} {print $4}'`
+	G_F=`echo "scale=3; ${T_B_mix_F}/${T_B_baseline_F}" | bc`
+	G_R=`echo "scale=3; ${T_B_mix_R}/${T_B_baseline_R}" | bc`
+	L_F=`echo "scale=3; ${T_A_mix_F}/${T_A_baseline_F}" | bc`
+	L_R=`echo "scale=3; ${T_A_mix_R}/${T_A_baseline_R}" | bc`
+	echo "${rfa[1]} & ${rfa[2]} & " >> $outfile
+	tail -1 $rfp | awk 'BEGIN {FS=","; OFMT="%.3g"; OFS=" & "} {print "\\emph{" ; print $1+0 ; print "} & "; print $3+0,"\\emph{"; print $2+0 ; print "} &" ;print $4+0,"'$G_F'","'$G_R'","'$L_F'","'$L_R'","'$Efficiency'",$13+0,$14+0,$17,$18 }' >> $outfile
+    fi
+    echo '\\\hline'  >> $outfile
+done
+echo '\end{tabular}' >> $outfile

@@ -1,0 +1,82 @@
+Copyright (c) 2011
+  Swinburne University of Technology, Melbourne, Australia
+  All rights reserved.
+Copyright (c) 2013
+  University of Oslo, Norway
+  All rights reserved.
+
+
+Released under the GNU General Public License version 2.
+
+David Hayes (davihay@ifi.uio.no or david.hayes@ieee.org)
+
+Dependencies:
+=============
+
+The TCP Evaluation Suite is designed to run with NS version
+2.35. There is a minor change to the the official 2.35 release, so it
+is recommended that you use the version co-located in the repository
+with the TCP evaluation suite.
+
+
+Traffic trace files:
+====================
+
+The following trace files are required: r4s1.orig, r4s2.orig,
+r4s3.orig, r5s1.orig, r5s2.orig, r5s3.orig, r6s1.orig, r6s2.orig,
+r6s3.orig.
+
+They are available from:
+http://hosting.riteproject.eu/tcpevaltmixtraces.tgz, and need to be
+placed in the scenarios/Tmix_Traffic directory.
+
+
+Usage Instructions:
+===================
+
+Running eval/eval_tcp.sh without parameters will provide usage
+instructions. Note that the "findtarget" option is not for general
+use, but was used to determine the Tmix scale parameters defined for
+the different experiments.
+
+
+Adding a TCP variant:
+=====================
+
+TCP variants can be added by editing the eval/tcl/tcp_schemes.tcl file,
+following the examples already there.
+
+In addition to this a file with necessary test parameters needs to be placed in
+each of the test directories:
+  eg   eval/scenarios/Basic_Dumbbell_Scenarios/access_link/NewReno.tcl
+
+Since the defaults have already been defined in tcl_base_setup for that
+experiment, often the only line needed in the file is:
+
+	    set Test_TCP NewTCPvariant
+
+where "NewTCPvariant" identifies the scheme you have placed in
+eval/tcl/tcp_schemes.tcl.
+
+
+Implemented Tests:
+==================
+
+- Basic Dumbbell Scenarios:
+	access_link
+	data_center
+	dial_up
+	geo_satellite
+	trans_oceanic
+	wireless_access
+
+	Delay ThroughputTradeoff (here in ns2 implementation)
+
+- Impact on Standard TCP
+
+- Ramp Up Time
+
+- Multiple Bottleneck:
+	Three bottlenecks with four flows
+
+
