@@ -146,7 +146,7 @@ proc finish {} {
 	$ns flush-trace
 	close $tracefd_
     }
-
+    
     set avlossF [expr 100.0 * $prevstat(pkt,drop,F) / $prevstat(pkt,arr,F) ]
     set avlossR [expr 100.0 * $prevstat(pkt,drop,R) / $prevstat(pkt,arr,R) ]
 
@@ -164,16 +164,16 @@ proc finish {} {
 	set avQwaitR  inf
     }
 
-    if {$TargetDirection == "B"} {
-	set pla [lrange $pcntLoad(F) [expr round($warmup/$Incremental_display_interval)] end ]
- 	set pla [concat $pla [lrange $pcntLoad(R) [expr round($warmup/$Incremental_display_interval)] end ] ]
-	set pcntload [expr ([ join $pla +]+0.0) / (0.5 * [llength $pla])]
-    } else {
-	set pla [lrange $pcntLoad($TargetDirection) [expr round($warmup/$Incremental_display_interval)] end ]
-	set pcntload [expr ([ join $pla +]+0.0) / [llength $pla]]
-    }
- 
     if {$findtarget} {
+	if {$TargetDirection == "B"} {
+	    set pla [lrange $pcntLoad(F) [expr round($warmup/$Incremental_display_interval)] end ]
+	    set pla [concat $pla [lrange $pcntLoad(R) [expr round($warmup/$Incremental_display_interval)] end ] ]
+	    set pcntload [expr ([ join $pla +]+0.0) / (0.5 * [llength $pla])]
+	} else {
+	    set pla [lrange $pcntLoad($TargetDirection) [expr round($warmup/$Incremental_display_interval)] end ]
+	    set pcntload [expr ([ join $pla +]+0.0) / [llength $pla]]
+	}
+	
 	puts $nsoutfd_ [format "Summary (F/R): Arr Mbps %6.3g / %6.3g, Packets - Total %d / %d Dropped %d / %d, Av Q Dly %6.3g s / %6.3g s, Av Q Sz %6.3g B / %6.3g B, Av Loss %6.3f %% / %6.3f %%, Target=%6.3f %%, MeasuredLoad=%6.3f %%, scale=%8.6f prefill_t=%8.6f prefill_si=%8.6f warmup=%8.6f" \
 			    [expr $prevstat(byte,arr,F)*8.0/1e6/$measuretime] \
 			    [expr $prevstat(byte,arr,R)*8.0/1e6/$measuretime] \
