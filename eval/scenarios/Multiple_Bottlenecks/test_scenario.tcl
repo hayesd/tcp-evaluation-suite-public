@@ -463,7 +463,12 @@ set longflowthresh [expr 0.5*$prefill_t ]
 set pkt_overhead 40
 set findstats 1
 # each bottleneck has two tmix flows, so halve the target load
-set bn_target_load [expr  1.0 * $targetload / $cc_tmix_srcs]
+if { $findtarget } {
+    set bn_target_load [expr  1.0 * $targetload / $cc_tmix_srcs]
+} else {
+    set bn_target_load 0
+}
+
 set shuff [new Shuffle]
 set shufrtns [$shuff shuffle_traces $scale $sim_time $binsecs $tmix_base_cv_names \
 		  $findstats $findtarget $prefill_t $BCbps $cc_tmix_srcs $maxRTT \

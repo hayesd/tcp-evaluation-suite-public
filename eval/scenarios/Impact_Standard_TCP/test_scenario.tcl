@@ -317,6 +317,7 @@ proc resetmonitors {fmonF fmonR} {
 #
 set NumExperiments [array size ExperimentNames]
 set skipexperiment 0
+set targetload 0
 if {$ExperimentIteration > $NumExperiments} {
     set $NewExperimentIteration -1 
     puts stdout [format "tcpevaliterations,%d" \
