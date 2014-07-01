@@ -83,7 +83,7 @@ foreach bp $droptail_buffer_proportions {
     set Scale($ExperimentNames($exp_num)) $Std_Scale
     set Warmup($ExperimentNames($exp_num)) $Std_WU
     set Prefill_t($ExperimentNames($exp_num)) $Std_P_t
-    set Prefill_s($ExperimentNames($exp_num)) $Std_P_s
+    set Prefill_si($ExperimentNames($exp_num)) $Std_P_s
     set BufferLength($ExperimentNames($exp_num)) \
 	[list [expr [lindex $buffer_length 0] * $bp] \
 	     [expr [lindex $buffer_length 1] * $bp] ]
