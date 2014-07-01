@@ -26,7 +26,8 @@ then
     echo "                $0 all --resultdir=\"results\" --parallel=8 0"
     echo "      defaults: --resultdir=\"$CWD/results\", --parallel=1, savetracefile=0, findtarget=0"
     echo
-    echo "Note: export TCPEVAL=\"path of $0\"  to run from another directory\n"
+    echo "Note: export TCPEVAL=\"path of $0\"  to run from another directory"
+    echo
     exit 1
 fi
 
