@@ -63,7 +63,11 @@ set tmix_base_cv_name [list "$tmix_cv_dir/r4s1" "$tmix_cv_dir/r4s2"  "$tmix_cv_d
 set maxRTT [expr ([join $buffer_length +]+100.0+$core_delay)*2.0/1000.0] ;#see edge and base delays above
 set TargetDirection "R" ;#F - forward or R - reverse
 #
-set Std_Scale 2.774501
+set Std_Scale 3.812
+set Std_Tt  829.0
+set Std_WU 829
+set Std_P_t 36.72
+set Std_P_s 30.745
 ################## Basic Scenario: Access Link Moderate Congestion #################
 # Names for experiments to iterate through
 set droptail_buffer_proportions [list 0.10 0.20 0.50 1.0 2.0 ]
@@ -74,8 +78,12 @@ foreach bp $droptail_buffer_proportions {
     incr exp_num
     set ExperimentNames($exp_num) DropTail_$bp
     # scale set for NewReno moderate congestion on access-link
-    set AQMtarget($ExperimentNames($exp_num)) 0
+#    set AQMtarget($ExperimentNames($exp_num)) 0
+    set TestTime($ExperimentNames($exp_num)) $Std_Scale
     set Scale($ExperimentNames($exp_num)) $Std_Scale
+    set Warmup($ExperimentNames($exp_num)) $Std_WU
+    set Prefill_t($ExperimentNames($exp_num)) $Std_P_t
+    set Prefill_s($ExperimentNames($exp_num)) $Std_P_s
     set BufferLength($ExperimentNames($exp_num)) \
 	[list [expr [lindex $buffer_length 0] * $bp] \
 	     [expr [lindex $buffer_length 1] * $bp] ]
