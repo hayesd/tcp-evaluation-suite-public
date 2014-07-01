@@ -23,7 +23,7 @@ then
     echo "$0 testscenario|all [--resultdir=resultdirbasename] [--parallel=1-N]] [--savetracefile=1|0]] [--findtarget=1|0]]"
     echo "      examples: $0 Basic_Dumbbell_Scenarios/access_link"
     echo "                $0 all"
-    echo "                $0 all --resultdir=\"results\" --parallel=8 0"
+    echo "                $0 all --resultdir=\"results\" --parallel=8"
     echo "      defaults: --resultdir=\"$CWD/results\", --parallel=1, savetracefile=0, findtarget=0"
     echo
     echo "Note: export TCPEVAL=\"path of $0\"  to run from another directory"
