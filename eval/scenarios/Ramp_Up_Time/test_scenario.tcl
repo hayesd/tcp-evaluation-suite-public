@@ -553,15 +553,17 @@ set scale [lindex $shufrtns 2]
 set sim_time [lindex $shufrtns 3]
 set numTmixSrcs [llength $tmix_shuff_cv_name]
 set conn_rate [lindex $tracestats 0]
-if { $TargetDirection == "F" } { 
-    set total_data_in_bits [expr [lindex $tracestats 3] * 8 ]
-    set total_prefill_in_bits [expr [lindex $tracestats 1] * 8 ]
-} elseif { $TargetDirection == "R" } {
-    set total_data_in_bits [expr [lindex $tracestats 4] * 8 ]
-    set total_prefill_in_bits [expr [lindex $tracestats 2] * 8 ]
-} else {
-    set total_data_in_bits [expr [lindex $tracestats 3] * 8 + [lindex $tracestats 4] * 8 ]
-    set total_prefill_in_bits [expr [lindex $tracestats 1] * 8 ]
+if { $findtarget } {
+    if { $TargetDirection == "F" } { 
+	set total_data_in_bits [expr [lindex $tracestats 3] * 8 ]
+	set total_prefill_in_bits [expr [lindex $tracestats 1] * 8 ]
+    } elseif { $TargetDirection == "R" } {
+	set total_data_in_bits [expr [lindex $tracestats 4] * 8 ]
+	set total_prefill_in_bits [expr [lindex $tracestats 2] * 8 ]
+    } else {
+	set total_data_in_bits [expr [lindex $tracestats 3] * 8 + [lindex $tracestats 4] * 8 ]
+	set total_prefill_in_bits [expr [lindex $tracestats 1] * 8 ]
+    }
 }
 if { $prefill_t == 0 } {
     set prefill_si 0
@@ -580,8 +582,8 @@ if { $prefill_t == 0 } {
 	set nsbasefd_ [open $tmp_directory_/tcl_base_setup a]
 	puts $nsbasefd_ "set Prefill_si($ThisExperiment) $prefill_si"
 	close $nsbasefd_
+	puts stderr "prefill data = $total_prefill_in_bits, prefill_si = $prefill_si"
     }
-    puts stderr "prefill data = $total_prefill_in_bits, prefill_si = $prefill_si"
     if {$prefill_t < $prefill_si} {
 	puts stderr "Warning: prefill_t must be larger than prefill_si, setting prefill_t and prefill_si to 0, as prefill is not needed for this experiment"
 	set prefill_si 0
@@ -729,7 +731,7 @@ if {$findtarget < 1} {
 	# Set up TCP source and sink agents
 	set TCPsrc($tn) [new Agent/TCP/$SRC]
 	if {$tn == 2} {
-	    $TCPsrc set ssthresh_ [$TCPsrc set windowInit_]
+	    $TCPsrc($tn) set ssthresh_ [$TCPsrc($tn) set windowInit_]
 	}
 	set TCPsnk($tn) [new Agent/TCPSink/$SINK]
 	$ns attach-agent $TNsrc($tn) $TCPsrc($tn)

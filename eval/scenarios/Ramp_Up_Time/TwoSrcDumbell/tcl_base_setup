@@ -84,8 +84,8 @@ array set cntlnk_bws {
 # the scales are specific for each run as the traffic is different
 #    56kbps {15810.243 2390.00 5660.22}
 array set scales {
-    10Mbps {237.86 280.799 290.0}
-    1Gbps  {3.5 3.5 3.5}
+    10Mbps {77.322 72.992 68.326}
+    1Gbps  {0.7 0.7 0.7}
 }
 # cntlnk buffer length in ms (r1, r2) (median BDP, except for 56kbsp)
 #    56kbps {1500 1500}
@@ -99,15 +99,23 @@ array set ttimes {
     10Mbps 600
     1Gbps  600
 }
+array set wu {
+    10Mbps {12 114 12}
+    1Gbps  {102 102 102}
+}
 #pfs is only used when finding a target rate
 #    56kbps 0.1
 array set p_t {
-    10Mbps 600.0
+    10Mbps 500.0
     1Gbps  200.0
 }
 array set pfs {
     10Mbps 0.15
     1Gbps  0.2
+}
+array set p_s {
+    10Mbps {131.18 187.14 246.13}
+    1Gbps  {100.11 103.07 101.02}
 }
 
 #ugly fudge factor due to difficulty with such low loads and short times
@@ -153,10 +161,10 @@ foreach run [lsort -increasing [array names runs]]  {
 	    set CntlnkBws($ExperimentNames($exp_num)) $cntlnk_bws($bw)
 	    set Buffers($ExperimentNames($exp_num)) $buffers($bw)
 	    set TestTime($ExperimentNames($exp_num)) $ttimes($bw)
-#	    set Warmup($ExperimentNames($exp_num)) $wu($bw)
+	    set Warmup($ExperimentNames($exp_num)) [lindex $wu($bw) $runs($run)]
 	    set Prefill_t($ExperimentNames($exp_num)) $p_t($bw)
 	    set TargetLoadFactor($ExperimentNames($exp_num)) $tlfs($bw,$rtt)
-#	    set Prefill_si($ExperimentNames($exp_num)) $p_s($bw)
+	    set Prefill_si($ExperimentNames($exp_num)) [lindex $p_s($bw) $runs($run)]
 	    set Prefill_si_scale($exp_num) $pfs($bw)
 	    # maxrtt is for the background traffic
 	    set MaxRTT($ExperimentNames($exp_num)) [expr ([join $buffers($bw) +]+(100.0+$core_delay)*2.0)/1000.0]

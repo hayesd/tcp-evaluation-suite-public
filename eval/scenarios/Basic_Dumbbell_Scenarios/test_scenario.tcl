@@ -441,8 +441,8 @@ if { $prefill_t == 0 } {
 	set nsbasefd_ [open $tmp_directory_/tcl_base_setup a]
 	puts $nsbasefd_ "set Prefill_si($ThisExperiment) $prefill_si"
 	close $nsbasefd_
+	puts stderr "prefill data = $total_prefill_in_bits, prefill_si = $prefill_si"
     }
-    puts stderr "prefill data = $total_prefill_in_bits, prefill_si = $prefill_si"
     if {$prefill_t < $prefill_si} {
 	puts stderr "Warning: prefill_t must be larger than prefill_si, setting prefill_t and prefill_si to 0, as prefill is not needed for this experiment"
 	set prefill_si 0
