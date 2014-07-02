@@ -1,14 +1,24 @@
 Copyright (c) 2011
   Swinburne University of Technology, Melbourne, Australia
   All rights reserved.
-Copyright (c) 2013
+Copyright (c) 2013-2014
   University of Oslo, Norway
   All rights reserved.
 
+David Hayes (davihay@ifi.uio.no or david.hayes@ieee.org)
 
 Released under the GNU General Public License version 2.
 
-David Hayes (davihay@ifi.uio.no or david.hayes@ieee.org)
+
+Built on previous work by:
+	Gang Wang (wanggang@research.nec.com.cn)
+	Yong Xia   (xiayong@research.nec.com.cn)
+
+
+TCP Evaluation Suite
+====================
+See doc directory.
+
 
 Dependencies:
 =============
@@ -27,7 +37,7 @@ r4s3.orig, r5s1.orig, r5s2.orig, r5s3.orig, r6s1.orig, r6s2.orig,
 r6s3.orig.
 
 They are available from:
-http://hosting.riteproject.eu/tcpevaltmixtraces.tgz, and need to be
+http://trac.tools.ietf.org/group/irtf/trac/wiki/ICCRG, and need to be
 placed in the scenarios/Tmix_Traffic directory.
 
 
