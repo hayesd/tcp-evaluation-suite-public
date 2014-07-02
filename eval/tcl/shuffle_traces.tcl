@@ -229,6 +229,7 @@ Shuffle instproc shuffle_traces { scale simtime binsecs tmix_base_cv_name \
 	set findstats 1
     }
 
+    set awkinfo 1					  
     set looparound 1
     set highscale 0.0
     set lowscale 0.0
@@ -355,7 +356,10 @@ Shuffle instproc shuffle_traces { scale simtime binsecs tmix_base_cv_name \
 		# This is a bit clumbsy, but faster than plane tcl line by line reading
 		#NB mawk does not handle the large integer times well, so gawk is needed
 		if { [catch {set cvfFid($cvf) [open "| gawk \"BEGIN \{ out=0 \} \{if(\$1 ~ /^\[SC\]/) \{if (\$2 >= $lower_time) \{ if (\$2 < $upper_time) \{out=1; print \$0;\} else \{out=0;exit;\}\}\} else \{ if (out) print \$0\}\}\"  ${cvf}.orig" "r"]} ] } {
-		    puts stderr "--No gawk, using awk. Consider installing gawk for speedup and abilities with large integers"
+		    if { $awkinfo } {
+			puts stderr "--No gawk, using awk. Consider installing gawk for speedup and abilities with large integers"
+			set awkinfo 0
+		    }
 		    set cvfFid($cvf) [open "| awk \"BEGIN \{ out=0 \} \{if(\$1 ~ /^\[SC\]/) \{if (\$2 >= $lower_time) \{ if (\$2 < $upper_time) \{out=1; print \$0;\} else \{out=0;exit;\}\}\} else \{ if (out) print \$0\}\}\"  ${cvf}.orig" "r"]
 		}
 		fconfigure $cvfFid($cvf) -buffering full -buffersize 100000
