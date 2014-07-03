@@ -49,6 +49,21 @@ instructions. Note that the "findtarget" option is not for general
 use, but was used to determine the Tmix scale parameters defined for
 the different experiments.
 
+Note that by default eval_tcp.sh will not create trace files, but only
+output the summary results of the tests. If you wish to generate trace
+files for you own analysis use the savetracefile=1 command line option.
+
+
+TCP variants tested
+===================
+
+The test scripts will test every TCP variant that has a file in the
+test directory
+(eg. eval/scenarios/Basic_Dumbbell_Scenarios/access_link/tcpvariants.tcl). A
+number of variants are included with the evaluation suite. If you do
+not want to run these tests (they can take some time to run) you will
+need to rename or remove these files.
+
 
 Adding a TCP variant:
 =====================
@@ -69,6 +84,7 @@ where "NewTCPvariant" identifies the scheme you have placed in
 eval/tcl/tcp_schemes.tcl.
 
 
+
 Implemented Tests:
 ==================
 
@@ -80,7 +96,7 @@ Implemented Tests:
 	trans_oceanic
 	wireless_access
 
-	Delay ThroughputTradeoff (here in ns2 implementation)
+	Delay ThroughputTradeoff (under basic dumbbell in the ns2 implementation)
 
 - Impact on Standard TCP
 
