@@ -1,0 +1,1701 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Common TCP Evaluation Suite</title>
+
+  <style type="text/css" title="Xml2Rfc (sans serif)">
+  /*<![CDATA[*/
+	  a {
+	  text-decoration: none;
+	  }
+      /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+      a.info {
+          /* This is the key. */
+          position: relative;
+          z-index: 24;
+          text-decoration: none;
+      }
+      a.info:hover {
+          z-index: 25;
+          color: #FFF; background-color: #900;
+      }
+      a.info span { display: none; }
+      a.info:hover span.info {
+          /* The span will display just on :hover state. */
+          display: block;
+          position: absolute;
+          font-size: smaller;
+          top: 2em; left: -5em; width: 15em;
+          padding: 2px; border: 1px solid #333;
+          color: #900; background-color: #EEE;
+          text-align: left;
+      }
+	  a.smpl {
+	  color: black;
+	  }
+	  a:hover {
+	  text-decoration: underline;
+	  }
+	  a:active {
+	  text-decoration: underline;
+	  }
+	  address {
+	  margin-top: 1em;
+	  margin-left: 2em;
+	  font-style: normal;
+	  }
+	  body {
+	  color: black;
+	  font-family: verdana, helvetica, arial, sans-serif;
+	  font-size: 10pt;
+	  max-width: 55em;
+	  
+	  }
+	  cite {
+	  font-style: normal;
+	  }
+	  dd {
+	  margin-right: 2em;
+	  }
+	  dl {
+	  margin-left: 2em;
+	  }
+	
+	  ul.empty {
+	  list-style-type: none;
+	  }
+	  ul.empty li {
+	  margin-top: .5em;
+	  }
+	  dl p {
+	  margin-left: 0em;
+	  }
+	  dt {
+	  margin-top: .5em;
+	  }
+	  h1 {
+	  font-size: 14pt;
+	  line-height: 21pt;
+	  page-break-after: avoid;
+	  }
+	  h1.np {
+	  page-break-before: always;
+	  }
+	  h1 a {
+	  color: #333333;
+	  }
+	  h2 {
+	  font-size: 12pt;
+	  line-height: 15pt;
+	  page-break-after: avoid;
+	  }
+	  h3, h4, h5, h6 {
+	  font-size: 10pt;
+	  page-break-after: avoid;
+	  }
+	  h2 a, h3 a, h4 a, h5 a, h6 a {
+	  color: black;
+	  }
+	  img {
+	  margin-left: 3em;
+	  }
+	  li {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol p {
+	  margin-left: 0em;
+	  }
+	  p {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  pre {
+	  margin-left: 3em;
+	  background-color: lightyellow;
+	  padding: .25em;
+	  }
+	  pre.text2 {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f0f0f0;
+	  width: 69em;
+	  }
+	  pre.inline {
+	  background-color: white;
+	  padding: 0em;
+	  }
+	  pre.text {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  width: 69em;
+	  }
+	  pre.drawing {
+	  border-style: solid;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  padding: 2em;
+	  }
+	  table {
+	  margin-left: 2em;
+	  }
+	  table.tt {
+	  vertical-align: top;
+	  }
+	  table.full {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.headers {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.tt td {
+	  vertical-align: top;
+	  }
+	  table.full td {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.tt th {
+	  vertical-align: top;
+	  }
+	  table.full th {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.headers th {
+	  border-style: none none inset none;
+	  border-width: 1px;
+	  }
+	  table.left {
+	  margin-right: auto;
+	  }
+	  table.right {
+	  margin-left: auto;
+	  }
+	  table.center {
+	  margin-left: auto;
+	  margin-right: auto;
+	  }
+	  caption {
+	  caption-side: bottom;
+	  font-weight: bold;
+	  font-size: 9pt;
+	  margin-top: .5em;
+	  }
+	
+	  table.header {
+	  border-spacing: 1px;
+	  width: 95%;
+	  font-size: 10pt;
+	  color: white;
+	  }
+	  td.top {
+	  vertical-align: top;
+	  }
+	  td.topnowrap {
+	  vertical-align: top;
+	  white-space: nowrap; 
+	  }
+	  table.header td {
+	  background-color: gray;
+	  width: 50%;
+	  }
+	  table.header a {
+	  color: white;
+	  }
+	  td.reference {
+	  vertical-align: top;
+	  white-space: nowrap;
+	  padding-right: 1em;
+	  }
+	  thead {
+	  display:table-header-group;
+	  }
+	  ul.toc, ul.toc ul {
+	  list-style: none;
+	  margin-left: 1.5em;
+	  margin-right: 0em;
+	  padding-left: 0em;
+	  }
+	  ul.toc li {
+	  line-height: 150%;
+	  font-weight: bold;
+	  font-size: 10pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  ul.toc li li {
+	  line-height: normal;
+	  font-weight: normal;
+	  font-size: 9pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  li.excluded {
+	  font-size: 0pt;
+	  }
+	  ul p {
+	  margin-left: 0em;
+	  }
+	
+	  .comment {
+	  background-color: yellow;
+	  }
+	  .center {
+	  text-align: center;
+	  }
+	  .error {
+	  color: red;
+	  font-style: italic;
+	  font-weight: bold;
+	  }
+	  .figure {
+	  font-weight: bold;
+	  text-align: center;
+	  font-size: 9pt;
+	  }
+	  .filename {
+	  color: #333333;
+	  font-weight: bold;
+	  font-size: 12pt;
+	  line-height: 21pt;
+	  text-align: center;
+	  }
+	  .fn {
+	  font-weight: bold;
+	  }
+	  .hidden {
+	  display: none;
+	  }
+	  .left {
+	  text-align: left;
+	  }
+	  .right {
+	  text-align: right;
+	  }
+	  .title {
+	  color: #990000;
+	  font-size: 18pt;
+	  line-height: 18pt;
+	  font-weight: bold;
+	  text-align: center;
+	  margin-top: 36pt;
+	  }
+	  .vcardline {
+	  display: block;
+	  }
+	  .warning {
+	  font-size: 14pt;
+	  background-color: yellow;
+	  }
+	
+	
+	  @media print {
+	  .noprint {
+		display: none;
+	  }
+	
+	  a {
+		color: black;
+		text-decoration: none;
+	  }
+	
+	  table.header {
+		width: 90%;
+	  }
+	
+	  td.header {
+		width: 50%;
+		color: black;
+		background-color: white;
+		vertical-align: top;
+		font-size: 12pt;
+	  }
+	
+	  ul.toc a::after {
+		content: leader('.') target-counter(attr(href), page);
+	  }
+	
+	  ul.ind li li a {
+		content: target-counter(attr(href), page);
+	  }
+	
+	  .print2col {
+		column-count: 2;
+		-moz-column-count: 2;
+		column-fill: auto;
+	  }
+	  }
+	
+	  @page {
+	  @top-left {
+		   content: "Internet-Draft"; 
+	  } 
+	  @top-right {
+		   content: "December 2010"; 
+	  } 
+	  @top-center {
+		   content: "Abbreviated Title";
+	  } 
+	  @bottom-left {
+		   content: "Doe"; 
+	  } 
+	  @bottom-center {
+		   content: "Expires June 2011"; 
+	  } 
+	  @bottom-right {
+		   content: "[Page " counter(page) "]"; 
+	  } 
+	  }
+	
+	  @page:first { 
+		@top-left {
+		  content: normal;
+		}
+		@top-right {
+		  content: normal;
+		}
+		@top-center {
+		  content: normal;
+		}
+	  }
+  /*]]>*/
+  </style>
+
+  <link href="#rfc.toc" rel="Contents"/>
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 Traffic generation"/>
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Desirable model characteristics"/>
+<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Tmix"/>
+<link href="#rfc.section.2.2.1" rel="Chapter" title="2.2.1 Base Tmix trace files for tests"/>
+<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Loads"/>
+<link href="#rfc.section.2.3.1" rel="Chapter" title="2.3.1 Varying the Tmix traffic load"/>
+<link href="#rfc.section.2.3.2" rel="Chapter" title="2.3.2 Dealing with non-stationarity"/>
+<link href="#rfc.section.2.4" rel="Chapter" title="2.4 Packet size distribution"/>
+<link href="#rfc.section.2.4.1" rel="Chapter" title="2.4.1 Potential revision"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 Achieving reliable results in minimum time"/>
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Background"/>
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Equilibrium or Steady State"/>
+<link href="#rfc.section.3.2.1" rel="Chapter" title="3.2.1 Note on the offered load in NS2"/>
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 Accelerated test start up time"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Basic scenarios"/>
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Basic topology"/>
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Traffic"/>
+<link href="#rfc.section.4.3" rel="Chapter" title="4.3 Flows under test"/>
+<link href="#rfc.section.4.4" rel="Chapter" title="4.4 Scenarios"/>
+<link href="#rfc.section.4.4.1" rel="Chapter" title="4.4.1 Data Center"/>
+<link href="#rfc.section.4.4.2" rel="Chapter" title="4.4.2 Access Link"/>
+<link href="#rfc.section.4.4.3" rel="Chapter" title="4.4.3 Trans-Oceanic Link"/>
+<link href="#rfc.section.4.4.4" rel="Chapter" title="4.4.4 Geostationary Satellite"/>
+<link href="#rfc.section.4.4.5" rel="Chapter" title="4.4.5 Wireless LAN"/>
+<link href="#rfc.section.4.4.6" rel="Chapter" title="4.4.6 Dial-up Link"/>
+<link href="#rfc.section.4.5" rel="Chapter" title="4.5 Metrics of interest"/>
+<link href="#rfc.section.4.6" rel="Chapter" title="4.6 Potential Revisions"/>
+<link href="#rfc.section.5" rel="Chapter" title="5 Latency specific experiments"/>
+<link href="#rfc.section.5.1" rel="Chapter" title="5.1 Delay/throughput tradeoff as function of queue size"/>
+<link href="#rfc.section.5.1.1" rel="Chapter" title="5.1.1 Topology"/>
+<link href="#rfc.section.5.1.2" rel="Chapter" title="5.1.2 Flows under test"/>
+<link href="#rfc.section.5.1.3" rel="Chapter" title="5.1.3 Metrics of interest"/>
+<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Ramp up time: completion time of one flow"/>
+<link href="#rfc.section.5.2.1" rel="Chapter" title="5.2.1 Topology and background traffic"/>
+<link href="#rfc.section.5.2.2" rel="Chapter" title="5.2.2 Flows under test"/>
+<link href="#rfc.section.5.2.3" rel="Chapter" title="5.2.3 Metrics of interest"/>
+<link href="#rfc.section.5.3" rel="Chapter" title="5.3 Transients: release of bandwidth, arrival of many flows"/>
+<link href="#rfc.section.5.3.1" rel="Chapter" title="5.3.1 Topology and background traffic"/>
+<link href="#rfc.section.5.3.2" rel="Chapter" title="5.3.2 Flows under test"/>
+<link href="#rfc.section.5.3.3" rel="Chapter" title="5.3.3 Metrics of interest"/>
+<link href="#rfc.section.6" rel="Chapter" title="6 Throughput- and fairness-related experiments"/>
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 Impact on standard TCP traffic"/>
+<link href="#rfc.section.6.1.1" rel="Chapter" title="6.1.1 Topology and background traffic"/>
+<link href="#rfc.section.6.1.2" rel="Chapter" title="6.1.2 Flows under test"/>
+<link href="#rfc.section.6.1.3" rel="Chapter" title="6.1.3 Metrics of interest"/>
+<link href="#rfc.section.6.2" rel="Chapter" title="6.2 Intra-protocol and inter-RTT fairness"/>
+<link href="#rfc.section.6.2.1" rel="Chapter" title="6.2.1 Topology and background traffic"/>
+<link href="#rfc.section.6.2.2" rel="Chapter" title="6.2.2 Flows under test"/>
+<link href="#rfc.section.6.2.3" rel="Chapter" title="6.2.3 Metrics of interest"/>
+<link href="#rfc.section.6.3" rel="Chapter" title="6.3 Multiple bottlenecks"/>
+<link href="#rfc.section.6.3.1" rel="Chapter" title="6.3.1 Topology and traffic"/>
+<link href="#rfc.section.6.3.2" rel="Chapter" title="6.3.2 Metrics of interest"/>
+<link href="#rfc.section.7" rel="Chapter" title="7 Implementations"/>
+<link href="#rfc.section.8" rel="Chapter" title="8 Acknowledgements"/>
+<link href="#rfc.references" rel="Chapter" title="9 Informative References"/>
+<link href="#rfc.appendix.A" rel="Chapter" title="A Discussions on Traffic"/>
+<link href="#rfc.authors" rel="Chapter"/>
+
+
+  <meta name="generator" content="xml2rfc version 2.4.8 - http://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Hayes, D., Ros, D., Andrew, L., and S. Floyd" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-irtf-iccrg-tcpeval-01" />
+  <meta name="dct.issued" scheme="ISO8601" content="2014-6-25" />
+  <meta name="dct.abstract" content="This document presents an evaluation test suite for the initial assessment of proposed TCP modifications.  The goal of the test suite is to allow researchers to quickly and easily evaluate their proposed TCP extensions in simulators and testbeds using a common set of well-defined, standard test cases, in order to compare and contrast proposals against standard TCP as well as other proposed modifications.  This test suite is not intended to result in an exhaustive evaluation of a proposed TCP modification or new congestion control mechanism. Instead, the focus is on quickly and easily generating an initial evaluation report that allows the networking community to understand and discuss the behavioral aspects of a new proposal, in order to guide further experimentation that will be needed to fully investigate the specific aspects of such proposal." />
+  <meta name="description" content="This document presents an evaluation test suite for the initial assessment of proposed TCP modifications.  The goal of the test suite is to allow researchers to quickly and easily evaluate their proposed TCP extensions in simulators and testbeds using a common set of well-defined, standard test cases, in order to compare and contrast proposals against standard TCP as well as other proposed modifications.  This test suite is not intended to result in an exhaustive evaluation of a proposed TCP modification or new congestion control mechanism. Instead, the focus is on quickly and easily generating an initial evaluation report that allows the networking community to understand and discuss the behavioral aspects of a new proposal, in order to guide further experimentation that will be needed to fully investigate the specific aspects of such proposal." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+  <td class="left">Network Working Group</td>
+  <td class="right">D. Hayes</td>
+</tr>
+<tr>
+  <td class="left">Internet-Draft</td>
+  <td class="right">University of Oslo</td>
+</tr>
+<tr>
+  <td class="left">Intended status: Informational</td>
+  <td class="right">D. Ros</td>
+</tr>
+<tr>
+  <td class="left">Expires: December 27, 2014</td>
+  <td class="right">Simula Research Laboratory</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">L. Andrew</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">CAIA Swinburne University of Technology</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">S. Floyd</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">ICSI</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">June 25, 2014</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Common TCP Evaluation Suite<br />
+  <span class="filename">draft-irtf-iccrg-tcpeval-01</span></p>
+  
+  <h1 id="rfc.abstract">
+  <a href="#rfc.abstract">Abstract</a>
+</h1>
+<p>This document presents an evaluation test suite for the initial assessment of proposed TCP modifications.  The goal of the test suite is to allow researchers to quickly and easily evaluate their proposed TCP extensions in simulators and testbeds using a common set of well-defined, standard test cases, in order to compare and contrast proposals against standard TCP as well as other proposed modifications.  This test suite is not intended to result in an exhaustive evaluation of a proposed TCP modification or new congestion control mechanism. Instead, the focus is on quickly and easily generating an initial evaluation report that allows the networking community to understand and discuss the behavioral aspects of a new proposal, in order to guide further experimentation that will be needed to fully investigate the specific aspects of such proposal.</p>
+<h1 id="rfc.status">
+  <a href="#rfc.status">Status of This Memo</a>
+</h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on December 27, 2014.</p>
+<h1 id="rfc.copyrightnotice">
+  <a href="#rfc.copyrightnotice">Copyright Notice</a>
+</h1>
+<p>Copyright (c) 2014 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
+<li>2.   <a href="#rfc.section.2">Traffic generation</a></li>
+<li>2.1.   <a href="#rfc.section.2.1">Desirable model characteristics</a></li>
+<li>2.2.   <a href="#rfc.section.2.2">Tmix</a></li>
+<li>2.2.1.   <a href="#rfc.section.2.2.1">Base Tmix trace files for tests</a></li>
+<li>2.3.   <a href="#rfc.section.2.3">Loads</a></li>
+<li>2.3.1.   <a href="#rfc.section.2.3.1">Varying the Tmix traffic load</a></li>
+<li>2.3.2.   <a href="#rfc.section.2.3.2">Dealing with non-stationarity</a></li>
+<li>2.4.   <a href="#rfc.section.2.4">Packet size distribution</a></li>
+<li>2.4.1.   <a href="#rfc.section.2.4.1">Potential revision</a></li>
+<li>3.   <a href="#rfc.section.3">Achieving reliable results in minimum time</a></li>
+<li>3.1.   <a href="#rfc.section.3.1">Background</a></li>
+<li>3.2.   <a href="#rfc.section.3.2">Equilibrium or Steady State</a></li>
+<li>3.2.1.   <a href="#rfc.section.3.2.1">Note on the offered load in NS2</a></li>
+<li>3.3.   <a href="#rfc.section.3.3">Accelerated test start up time</a></li>
+<li>4.   <a href="#rfc.section.4">Basic scenarios</a></li>
+<li>4.1.   <a href="#rfc.section.4.1">Basic topology</a></li>
+<li>4.2.   <a href="#rfc.section.4.2">Traffic</a></li>
+<li>4.3.   <a href="#rfc.section.4.3">Flows under test</a></li>
+<li>4.4.   <a href="#rfc.section.4.4">Scenarios</a></li>
+<li>4.4.1.   <a href="#rfc.section.4.4.1">Data Center</a></li>
+<li>4.4.2.   <a href="#rfc.section.4.4.2">Access Link</a></li>
+<li>4.4.3.   <a href="#rfc.section.4.4.3">Trans-Oceanic Link</a></li>
+<li>4.4.4.   <a href="#rfc.section.4.4.4">Geostationary Satellite</a></li>
+<li>4.4.5.   <a href="#rfc.section.4.4.5">Wireless LAN</a></li>
+<li>4.4.6.   <a href="#rfc.section.4.4.6">Dial-up Link</a></li>
+<li>4.5.   <a href="#rfc.section.4.5">Metrics of interest</a></li>
+<li>4.6.   <a href="#rfc.section.4.6">Potential Revisions</a></li>
+<li>5.   <a href="#rfc.section.5">Latency specific experiments</a></li>
+<li>5.1.   <a href="#rfc.section.5.1">Delay/throughput tradeoff as function of queue size</a></li>
+<li>5.1.1.   <a href="#rfc.section.5.1.1">Topology</a></li>
+<li>5.1.2.   <a href="#rfc.section.5.1.2">Flows under test</a></li>
+<li>5.1.3.   <a href="#rfc.section.5.1.3">Metrics of interest</a></li>
+<li>5.2.   <a href="#rfc.section.5.2">Ramp up time: completion time of one flow</a></li>
+<li>5.2.1.   <a href="#rfc.section.5.2.1">Topology and background traffic</a></li>
+<li>5.2.2.   <a href="#rfc.section.5.2.2">Flows under test</a></li>
+<li>5.2.3.   <a href="#rfc.section.5.2.3">Metrics of interest</a></li>
+<li>5.3.   <a href="#rfc.section.5.3">Transients: release of bandwidth, arrival of many flows</a></li>
+<li>5.3.1.   <a href="#rfc.section.5.3.1">Topology and background traffic</a></li>
+<li>5.3.2.   <a href="#rfc.section.5.3.2">Flows under test</a></li>
+<li>5.3.3.   <a href="#rfc.section.5.3.3">Metrics of interest</a></li>
+<li>6.   <a href="#rfc.section.6">Throughput- and fairness-related experiments</a></li>
+<li>6.1.   <a href="#rfc.section.6.1">Impact on standard TCP traffic</a></li>
+<li>6.1.1.   <a href="#rfc.section.6.1.1">Topology and background traffic</a></li>
+<li>6.1.2.   <a href="#rfc.section.6.1.2">Flows under test</a></li>
+<li>6.1.3.   <a href="#rfc.section.6.1.3">Metrics of interest</a></li>
+<li>6.2.   <a href="#rfc.section.6.2">Intra-protocol and inter-RTT fairness</a></li>
+<li>6.2.1.   <a href="#rfc.section.6.2.1">Topology and background traffic</a></li>
+<li>6.2.2.   <a href="#rfc.section.6.2.2">Flows under test</a></li>
+<li>6.2.3.   <a href="#rfc.section.6.2.3">Metrics of interest</a></li>
+<li>6.3.   <a href="#rfc.section.6.3">Multiple bottlenecks</a></li>
+<li>6.3.1.   <a href="#rfc.section.6.3.1">Topology and traffic</a></li>
+<li>6.3.2.   <a href="#rfc.section.6.3.2">Metrics of interest</a></li>
+<li>7.   <a href="#rfc.section.7">Implementations</a></li>
+<li>8.   <a href="#rfc.section.8">Acknowledgements</a></li>
+<li>9.   <a href="#rfc.references">Informative References</a></li>
+<li>Appendix A.   <a href="#rfc.appendix.A">Discussions on Traffic</a></li>
+<li><a href="#rfc.authors">Authors' Addresses</a></li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a></h1>
+<p id="rfc.section.1.p.1">This document describes a common test suite for the initial assessment of new TCP extensions or modifications. It defines a small number of evaluation scenarios, including traffic and delay distributions, network topologies, and evaluation parameters and metrics.  The motivation for such an evaluation suite is to help researchers in evaluating their proposed modifications to TCP.  The evaluation suite will also enable independent duplication and verification of reported results by others, which is an important aspect of the scientific method that is not often put to use by the networking community.  A specific target is that the evaluations should be able to be completed in a reasonable amount of time by simulation, or with a reasonable amount of effort in a testbed.</p>
+<p id="rfc.section.1.p.2">It is not possible to provide TCP researchers with a complete set of scenarios for an exhaustive evaluation of a new TCP extension; especially because the characteristics of a new extension will often require experiments with specific scenarios that highlight its behavior. On the other hand, an exhaustive evaluation of a TCP extension will need to include several standard scenarios, and it is the focus of the test suite described in this document to define this initial set of test cases.</p>
+<p id="rfc.section.1.p.3">These scenarios generalize current characteristics of the Internet such as round-trip times (RTT), propagation delays, and buffer sizes. It is envisaged that as the Internet evolves these will need to be adjusted. In particular, we expect buffer sizes will need to be adjusted as latency becomes increasingly important.</p>
+<p id="rfc.section.1.p.4">The scenarios specified here are intended to be as generic as possible, i.e., not tied to a particular simulation or emulation platform. However, when needed some details pertaining to implementation using a given tool are described.</p>
+<p id="rfc.section.1.p.5">This document has evolved from a &#8220;round-table&#8221; meeting on TCP evaluation, held at Caltech on November 8-9, 2007, reported in <a href="#TESTSUITE08">[TESTSUITE08]</a>.  This document is the first step in constructing the evaluation suite; the goal is for the evaluation suite to be adapted in response to feedback from the networking community. It revises draft-irtf-tmrg-tests-02 <a href="#I-D-TMRG-TESTS">[I-D-TMRG-TESTS]</a>.</p>
+<p id="rfc.section.1.p.6">The traces used and a sample implementation (including patched ns-2)  are available from: <a href="http://trac.tools.ietf.org/group/irtf/trac/wiki/ICCRG">http://trac.tools.ietf.org/group/irtf/trac/wiki/ICCRG</a></p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#traffic-generation" id="traffic-generation">Traffic generation</a></h1>
+<p id="rfc.section.2.p.1">Congestion control concerns the response of flows to bandwidth limitations or to the presence of other flows.  Cross-traffic and reverse-path traffic are therefore important to the tests described in this suite.  Such traffic can have the desirable effect of reducing the occurrence of pathological conditions, such as global synchronization among competing flows, that might otherwise be mis-interpreted as normal average behaviours of those protocols <a href="#FLOYD03">[FLOYD03]</a><a href="#MASCOLO06">[MASCOLO06]</a>.  This traffic must be reasonably realistic for the tests to predict the behaviour of congestion control protocols in real networks, and also well-defined so that statistical noise does not mask important effects.</p>
+<h1 id="rfc.section.2.1"><a href="#rfc.section.2.1">2.1.</a> <a href="#desirable-model-characteristics" id="desirable-model-characteristics">Desirable model characteristics</a></h1>
+<p id="rfc.section.2.1.p.1">Most scenarios use traffic produced by a traffic generator, with a range of start times for user sessions, flow sizes, and the like, mimicking the traffic patterns commonly observed in the Internet. It is important that the same &#8220;amount&#8221; of congestion or cross-traffic be used for the testing scenarios of different congestion control algorithms.  This is complicated by the fact that packet arrivals and even flow arrivals are influenced by the behavior of the algorithms.  For this reason, a pure open-loop, packet-level generation of traffic where generated traffic does not respond to the behaviour of other present flows is not suitable. Instead, emulating application or user behaviours at the end points using reactive protocols such as TCP in a closed-loop fashion results in a closer approximation of cross-traffic, where user behaviours are modeled by well-defined parameters for source inputs (e.g., request sizes for HTTP), destination inputs (e.g., response size), and think times between pairs of source and destination inputs.  By setting appropriate parameters for the traffic generator, we can emulate non-greedy user-interactive traffic (e.g., HTTP 1.1, SMTP and remote login), greedy traffic (e.g., P2P and long file downloads), as well as long-lived but non-greedy, non-interactive flows (or thin streams).</p>
+<p id="rfc.section.2.1.p.2">This approach models protocol reactions to the congestion caused by other flows in the common paths, although it fails to model the reactions of users themselves to the presence of congestion. A model that includes end-users&#8217; reaction to congestion is beyond the scope of this draft, but we invite researchers to explore how the user behavior, as reflected in the flow sizes, user wait times, and number of connections per session, might be affected by the level of congestion experienced within a session <a href="#ROSSI03">[ROSSI03]</a>.</p>
+<h1 id="rfc.section.2.2"><a href="#rfc.section.2.2">2.2.</a> <a href="#tmix" id="tmix">Tmix</a></h1>
+<p id="rfc.section.2.2.p.1">There are several traffic generators available that implement a similar approach to that discussed above. For now, we have chosen to use the Tmix <a href="#WEIGLE06">[WEIGLE06]</a> traffic generator. Tmix is available for the NS2 and NS3 simulators, and can generate traffic for testbeds (for example GENI <a href="#GENITMIX">[GENITMIX]</a>).</p>
+<p id="rfc.section.2.2.p.2">Tmix represents each TCP connection by a connection vector (CV) consisting of a sequence of (request-size, response-size, think-time) triples, thus representing bi-directional traffic.  Connection vectors used for traffic generation can be obtained from Internet traffic traces.</p>
+<h1 id="rfc.section.2.2.1"><a href="#rfc.section.2.2.1">2.2.1.</a> <a href="#sec:base-tmix-trace" id="sec:base-tmix-trace">Base Tmix trace files for tests</a></h1>
+<p id="rfc.section.2.2.1.p.1">The traces currently defined for use in the test suite are based on campus traffic at the University of North Carolina (see <a href="#TRACES">[TRACES]</a> for a description of construction methods and basic statistics).</p>
+<p id="rfc.section.2.2.1.p.2">The traces have an additional &#8220;m&#8221; field added to each connection vector to provide each direction&#8217;s maximum segment size for the connection. This is used to provide the packet size distribution described in  <a href="#sec:pack-size-distr">Section 2.4</a>.</p>
+<p id="rfc.section.2.2.1.p.3">These traces contain a mixture of connections, from very short flows that do not exist for long enough to be &#8220;congestion controlled&#8221;, to long thin streams, to bulk file transfer like connections.</p>
+<p id="rfc.section.2.2.1.p.4">The traces are available at: <a href="http://trac.tools.ietf.org/group/irtf/trac/wiki/ICCRG">http://trac.tools.ietf.org/group/irtf/trac/wiki/ICCRG</a></p>
+<p id="rfc.section.2.2.1.p.5">Each of the nine bidirectional trace files are named with the following convention:</p>
+<pre>
+    rAsI.org
+</pre>
+<p id="rfc.section.2.2.1.p.6">where the I is the number of the Tmix initiator node, and A is the number of the tmix acceptor node, when the traffic sources are set up in the dumbbell configuration shown in  <a href="#fig:dumbell">Figure 2</a>.</p>
+<h1 id="rfc.section.2.3"><a href="#rfc.section.2.3">2.3.</a> <a href="#loads" id="loads">Loads</a></h1>
+<p id="rfc.section.2.3.p.1">While the protocols being tested may differ, it is important that we maintain the same &#8220;load&#8221; or level of congestion for the experimental scenarios. For many of the scenarios, such as the basic ones in  <a href="#sec:basic-scenarios">Section 4</a>, each scenario is run for a range of loads, where the load is varied by varying the rate of session arrivals.</p>
+<h1 id="rfc.section.2.3.1"><a href="#rfc.section.2.3.1">2.3.1.</a> <a href="#sec:varying-tmix-traffic" id="sec:varying-tmix-traffic">Varying the Tmix traffic load</a></h1>
+<p id="rfc.section.2.3.1.p.1">To adjust the traffic load for a given scenario, the connection start times for flows in a Tmix trace are scaled as follows. Connections are actually started at:</p>
+<pre>
+    experiment_cv_start_time = scale * cv_start_time              (1)
+</pre>
+<p id="rfc.section.2.3.1.p.2">where cv_start_time denotes the connection vector start time in the Tmix traces and experiment_start_time is the time the connection starts in the experiment. Therefore, the smaller the scale the higher (in general) the traffic load.</p>
+<h1 id="rfc.section.2.3.1.1"><a href="#rfc.section.2.3.1.1">2.3.1.1.</a> <a href="#notes" id="notes">Notes</a></h1>
+<p id="rfc.section.2.3.1.1.p.1">Changing the connection start times also changes the way the traffic connections interact, potentially changing the &#8220;clumping&#8221; of traffic bursts.</p>
+<p id="rfc.section.2.3.1.1.p.2">Very small changes in the scaling parameter can cause disproportionate changes in the offered load. This is due to possibility of the small change causing the exclusion or inclusion of a CV that will transfer a very large amount of data.</p>
+<h1 id="rfc.section.2.3.2"><a href="#rfc.section.2.3.2">2.3.2.</a> <a href="#sec:dealing-with-non-stationarity" id="sec:dealing-with-non-stationarity">Dealing with non-stationarity</a></h1>
+<p id="rfc.section.2.3.2.p.1">The Tmix traffic traces, as they are, offer a non-stationary load. This is exacerbated for tests that do not require use of the full trace files, but only a portion of them. While removing this non-stationarity does also remove some of the &#8220;realism&#8221; of the traffic, it is necessary for the test suite to produce reliable and consistent results.</p>
+<p id="rfc.section.2.3.2.p.2">A more stationary offered load is achieved by shuffling the start times of connection vectors in the Tmix trace file. The trace file is logically partitioned into n-second bins, which are then shuffled using a Fisher-Yates shuffle <a href="#SHUFFLEWIKI">[SHUFFLEWIKI]</a>, and the required portions written to shuffled trace files for the particular experiment being conducted.</p>
+<h1 id="rfc.section.2.3.2.1"><a href="#rfc.section.2.3.2.1">2.3.2.1.</a> <a href="#bin-size" id="bin-size">Bin size</a></h1>
+<p id="rfc.section.2.3.2.1.p.1">The bin size is chosen so that there is enough shuffling with respect to the test length. The offered traffic per test second from the Tmix trace files depends on a scale factor (see <a href="#sec:varying-tmix-traffic">Section 2.3.1</a>), which is related to the capacity of the bottleneck link. The shuffling bin size (in seconds) is set at:</p>
+<pre>
+   b = 500e6 / C                                                  (2)
+</pre>
+<p id="rfc.section.2.3.2.1.p.2">where C is the bottleneck link&#8217;s capacity in bits per second, and 500e6 is a scaling factor (in bits).</p>
+<p id="rfc.section.2.3.2.1.p.3">Thus for the access link scenario described in <a href="#sec:access-link">Section 4.4.2</a>, the bin size for shuffling will be 5 seconds.</p>
+<h1 id="rfc.section.2.3.2.2"><a href="#rfc.section.2.3.2.2">2.3.2.2.</a> <a href="#ns2-implementation-specifics" id="ns2-implementation-specifics">NS2 implementation specifics</a></h1>
+<p id="rfc.section.2.3.2.2.p.1">The tcl scripts for this process are distributed with the NS2 example test suite implementation. Care must be taken when using this algorithm, so that the given random number generator and the same seed are employed, or else the resulting experimental traces will be different.</p>
+<h1 id="rfc.section.2.4"><a href="#rfc.section.2.4">2.4.</a> <a href="#sec:pack-size-distr" id="sec:pack-size-distr">Packet size distribution</a></h1>
+<p id="rfc.section.2.4.p.1">For flows generated by the traffic generator, 10% of them use 536-byte packets, and 90% 1500-byte packets.  The base Tmix traces described in <a href="#sec:base-tmix-trace">Section 2.2.1</a> have been processed at the <em>connection</em> level to have this characteristic. As a result, <em>packets</em> in a given test will be roughly, but not be exactly, in this proportion. However, the proportion of offered traffic will be consistent for each experiment.</p>
+<h1 id="rfc.section.2.4.1"><a href="#rfc.section.2.4.1">2.4.1.</a> <a href="#potential-revision" id="potential-revision">Potential revision</a></h1>
+<p id="rfc.section.2.4.1.p.1">As Tmix can now read and use a connection&#8217;s Maximum Segment Size (MSS) from the trace file, it will be possible to produce Tmix connection vector trace files where the packet sizes reflect actual measurements.</p>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#sec:reliable-results" id="sec:reliable-results">Achieving reliable results in minimum time</a></h1>
+<p id="rfc.section.3.p.1">This section describes the techniques used to achieve reliable results in the minimum test time.</p>
+<h1 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1.</a> <a href="#background" id="background">Background</a></h1>
+<p id="rfc.section.3.1.p.1">Over a long time, because the session arrival times are to a large extent independent of the transfer times, load could be defined as:</p>
+<pre>
+    A = E[f]/E[t],
+</pre>
+<p id="rfc.section.3.1.p.2">where E[f] is the mean session (flow) size in bits transferred, E[t] is the mean session inter-arrival time in seconds, and A is the load in bps.</p>
+<p id="rfc.section.3.1.p.3">It is important to test congestion control protocols in &#8220;overloaded&#8221; conditions.  However, if A &gt; C, where C is the capacity of the bottleneck link, then the system has no equilibrium.  In long-running experiments with A &gt; C, the expected number of flows would keep on increasing with time (because as time passes, flows would tend to last for longer and longer, thus &#8220;piling up&#8221; with newly-arriving ones).  This means that, in an overload scenario, some measures will be very sensitive to the duration of the tests.</p>
+<h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> <a href="#sec:equil-or-steady" id="sec:equil-or-steady">Equilibrium or Steady State</a></h1>
+<p id="rfc.section.3.2.p.1">Ideally, experiments should be run until some sort of equilibrium results can be obtained. Since every test algorithm can potentially change how long this may take, the following approach is adopted:</p>
+<p/>
+
+<ol>
+  <li>Traces are shuffled to remove non-stationarity (see <a href="#sec:dealing-with-non-stationarity">Section 2.3.2</a>.)</li>
+  <li>The experiment run time is determined from the traffic traces. The shuffled traces are compiled such that the estimate of traffic offered in the second third of the test is equal to the estimate of traffic offered in the final third of the test, to within a 5% tolerance. The length of the trace files becomes the total experiment run time (including the warm up time).</li>
+  <li>The warmup time until measurements start, as shown in <a href="#sec:basic-scenarios">Section 4</a>, is calculated as the time at which the NS2 simulation of standard TCP achieves &#8220;steady state&#8221;. In this case, warmup time is determined as the time required so the measurements have statistically similar first and second half results. The metrics used as reference are: the bottleneck raw throughput, and the average bottleneck queue size. The latter is stable when A&#160;&#187; C and A &#171;&#160;C, but not when A ~= C. In this case the queue is not a stable measure, and just the raw bottleneck throughput is used. </li>
+</ol>
+<h1 id="rfc.section.3.2.1"><a href="#rfc.section.3.2.1">3.2.1.</a> <a href="#note-on-the-offered-load-in-ns2" id="note-on-the-offered-load-in-ns2">Note on the offered load in NS2</a></h1>
+<p id="rfc.section.3.2.1.p.1">The offered load in an NS2 simulation using one-way TCP will be higher than the estimated load. One-way TCP uses fixed TCP segment sizes, so all transmissions that would normally use a segment size less than the maximum segment size (in this case 496B or 1460B), such as at the end of a block of data, or for short queries or responses, will still be sent as a maximum segment size packet.</p>
+<h1 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3.</a> <a href="#accelerated-test-start-up-time" id="accelerated-test-start-up-time">Accelerated test start up time</a></h1>
+<p id="rfc.section.3.3.p.1">Tmix traffic generation does not provide an instant constant load. It can take quite a long time for the number of simultaneous TCP connections, and thus the offered load, to build up.  To accelerate the system start up, the system is &#8220;prefilled&#8221; to a state close to &#8220;steady state&#8221;. This is done by starting initial sessions over a shorter interval than they would normally start, and biasing the sessions started to longer sessions. Details of how this is achieved follow.</p>
+<p id="rfc.section.3.3.p.2">Connections that start before t=prefill_t in the Tmix traces, are selected with a bias toward longer sessions (connections which are estimated to continue past the long_flow_bias time (see  <a href="#fig:prefilling">Figure 1</a>)).  These selected connections are then started at an accelerated rate by starting them over the time interval prefill_si.</p>
+<p id="rfc.section.3.3.p.3">The prefill_t (in seconds) calculation is based on the following heuristic:</p>
+<pre>
+    prefill_t = 1.5 * targetload * maxRTT                         (3)
+</pre>
+<p id="rfc.section.3.3.p.4">where maxRTT is the median maximum RTT in the particular topology, and targetload is given as a percentage. This generally works quite well, but requires some adjustment for very high BDP scenarios. Experiment tables specify the prefill_t value to be used in each experiment.</p>
+<p id="rfc.section.3.3.p.5">The long_flow_bias threshold is set at </p>
+<pre>
+    long_flow_bias = prefill_t / 2 .                              (4)
+</pre>
+<p id="rfc.section.3.3.p.6">These values are not optimal, but have been experimentally determined to give reasonable results.</p>
+<p id="rfc.section.3.3.p.7">The start up time interval, prefill_si, is calculated as follows:</p>
+<pre>
+    prefill_si = total_pfcb / (C * TL / 100.0)                    (5)
+</pre>
+<p id="rfc.section.3.3.p.8">where total_pfcb is the total number of bits estimated to be sent by the prefill connections, C is the capacity of the bottleneck link, and TL is the target offered load as a percentage.</p>
+<p id="rfc.section.3.3.p.9">This procedure has the effect of quickly bringing the system to a loaded state. From this point the system runs until t = warmup (as calculated in <a href="#sec:equil-or-steady">Section 3.2</a>), after which moment statistics are computed.</p>
+<div id="rfc.figure.1"/>
+<div id="fig:prefilling"/>
+<pre>
+                                       |&lt;----- test_duration -----&gt;|
+                                       |                           |
+              prefill_si               |                           |
+                |&lt;--&gt;|                 |                           |
+|--------|------|----|-----------------|---------------------------|
+t=0      |      |    |&lt;---- warmup ---&gt;|
+         |      |    |                 |
+         |      |    t = prefill_t     t = warmup + prefill_t 
+         |      |
+         |      t = prefill_t - prefill_si
+         |
+         t = long_flow_bias 
+
+</pre>
+<p class="figure">Figure 1: Prefilling.</p>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#sec:basic-scenarios" id="sec:basic-scenarios">Basic scenarios</a></h1>
+<p id="rfc.section.4.p.1">The purpose of the basic scenarios is to explore the behavior of a TCP modification over different link types. These scenarios use the dumbbell topology described in <a href="#sec:RTTs">Section 4.1</a>.</p>
+<h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#sec:RTTs" id="sec:RTTs">Basic topology</a></h1>
+<p id="rfc.section.4.1.p.1">Most tests use a simple dumbbell topology with a central link that connects two routers, as illustrated in <a href="#fig:dumbell">Figure 2</a>.  Each router is also connected to three nodes by edge links.  In order to generate a typical range of round trip times, edge links have different delays. Unless specified otherwise, such delays are as follows.  On one side, the one-way propagation delays are: 0ms, 12ms and 25ms; on the other: 2ms, 37ms, and 75ms.  Traffic is uniformly shared among the nine source/destination pairs, giving a distribution of per-flow RTTs in the absence of queueing delay shown in <a href="#tab:RTTs">Table 1</a>.  These RTTs are computed for a dumbbell topology assuming a delay of 0ms for the central link.  The delay for the central link that is used in a specific scenario is given in the next section.</p>
+<div id="rfc.figure.2"/>
+<div id="fig:dumbell"/>
+<pre>
+Node 1                                                      Node 4
+       \_                                                _/
+         \_                                            _/
+           \_ __________     Central      __________ _/
+             |          |     link       |          |
+Node 2 ------| Router 1 |----------------| Router 2 |------ Node 5
+            _|__________|                |__________|_
+          _/                                          \_
+        _/                                              \_
+Node 3 /                                                  \ Node 6
+
+</pre>
+<p class="figure">Figure 2: A dumbbell topology.</p>
+<p id="rfc.section.4.1.p.2">For dummynet experiments, delays can be obtained by specifying the delay of each flow. </p>
+<div id="rfc.table.1"/>
+<div id="tab:RTTs"/>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+  <caption>Minimum RTTs of the paths between two nodes, in     milliseconds.</caption>
+  <thead>
+    <tr>
+      <th class="left">Path</th>
+      <th class="left">RTT</th>
+      <th class="left">Path</th>
+      <th class="left">RTT</th>
+      <th class="left">Path</th>
+      <th class="left">RTT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="left">1-4</td>
+      <td class="left">4</td>
+      <td class="left">1-5</td>
+      <td class="left">74</td>
+      <td class="left">1-6</td>
+      <td class="left">150</td>
+    </tr>
+    <tr>
+      <td class="left">2-4</td>
+      <td class="left">28</td>
+      <td class="left">2-5</td>
+      <td class="left">98</td>
+      <td class="left">2-6</td>
+      <td class="left">174</td>
+    </tr>
+    <tr>
+      <td class="left">3-4</td>
+      <td class="left">54</td>
+      <td class="left">3-5</td>
+      <td class="left">124</td>
+      <td class="left">3-6</td>
+      <td class="left">200</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#sec:basic-traffic" id="sec:basic-traffic">Traffic</a></h1>
+<p id="rfc.section.4.2.p.1">In all of the basic scenarios, <em>all</em> TCP flows use the TCP extension or modification under evaluation.</p>
+<p id="rfc.section.4.2.p.2">In general, the 9 bidirectional Tmix sources are connected to nodes 1 to 6 of  <a href="#fig:dumbell">Figure 2</a> to create the paths tabulated in <a href="#tab:RTTs">Table 1</a>.</p>
+<p id="rfc.section.4.2.p.3">Offered loads are estimated directly from the shuffled and scaled Tmix traces, as described in  <a href="#sec:equil-or-steady">Section 3.2</a>. The actual measured loads will depend on the TCP variant and the scenario being tested.</p>
+<p id="rfc.section.4.2.p.4">Buffer sizes are based on the Bandwidth Delay Product (BDP), except for the Dial-up scenario where a BDP buffer does not provide enough buffering.</p>
+<p id="rfc.section.4.2.p.5">The load generated by Tmix with the standard trace files is asymmetric, with a higher load offered in the right to left direction (refer to  <a href="#fig:dumbell">Figure 2</a>) than in the left to right direction. Loads are specified for the higher traffic right to left direction. For each of the basic scenarios, three offered loads are tested: moderate (60%), high (85%), and overload (110%). Loads are for the bottleneck link, which is the central link in all scenarios except the wireless LAN scenario.</p>
+<p id="rfc.section.4.2.p.6">The 9 Tmix traces are scaled using a single scaling factor in these tests. This means that the traffic offered on each of the 9 paths through the network is not equal, but combined at the bottleneck produces the specified offered load.</p>
+<h1 id="rfc.section.4.3"><a href="#rfc.section.4.3">4.3.</a> <a href="#flows-under-test" id="flows-under-test">Flows under test</a></h1>
+<p id="rfc.section.4.3.p.1">For these basic scenarios, there is no differentiation between &#8220;cross-traffic&#8221; and the &#8220;flows under test&#8221;.  The aggregate traffic is under test, with the metrics exploring both aggregate traffic and distributions of flow-specific metrics.</p>
+<h1 id="rfc.section.4.4"><a href="#rfc.section.4.4">4.4.</a> <a href="#scenarios" id="scenarios">Scenarios</a></h1>
+<h1 id="rfc.section.4.4.1"><a href="#rfc.section.4.4.1">4.4.1.</a> <a href="#data-center" id="data-center">Data Center</a></h1>
+<p id="rfc.section.4.4.1.p.1">The data center scenario models a case where bandwidth is plentiful and link delays are generally low.  All links have a capacity of 1 Gbps. Links from nodes 1, 2 and 4 have a one-way propagation delay of 10 us, while those from nodes 3, 5 and 6 have 100 us <a href="#ALIZADEH10">[ALIZADEH10]</a>, and the central link has 0 ms delay. The central link has 10 ms buffers.</p>
+<div id="rfc.table.2"/>
+<div id="tab:dcloads"/>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+  <caption>Data center scenario parameters.</caption>
+  <thead>
+    <tr>
+      <th class="left">load</th>
+      <th class="left">scale</th>
+      <th class="left">warmup</th>
+      <th class="left">test_duration</th>
+      <th class="left">prefill_t</th>
+      <th class="left">prefill_si</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="left">60%</td>
+      <td class="left">0.4864</td>
+      <td class="left">63</td>
+      <td class="left">69</td>
+      <td class="left">9.0</td>
+      <td class="left">4.1</td>
+    </tr>
+    <tr>
+      <td class="left">85%</td>
+      <td class="left">0.3707</td>
+      <td class="left">19</td>
+      <td class="left">328</td>
+      <td class="left">11.3</td>
+      <td class="left">5.1</td>
+    </tr>
+    <tr>
+      <td class="left">110%</td>
+      <td class="left">0.3030</td>
+      <td class="left">8</td>
+      <td class="left">663</td>
+      <td class="left">14.6</td>
+      <td class="left">6.9</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.section.4.4.1.1"><a href="#rfc.section.4.4.1.1">4.4.1.1.</a> <a href="#potential-revisions" id="potential-revisions">Potential Revisions</a></h1>
+<p id="rfc.section.4.4.1.1.p.1">The rate of 1 Gbps is chosen such that NS2 simulations can run in a reasonable time. Higher values will become feasible (in simulation) as computing power increases, however the current traces may not be long enough to drive simulations or test bed experiments at higher rates.</p>
+<p id="rfc.section.4.4.1.1.p.2">The supplied Tmix traces are used here to provide a standard comparison across scenarios. Data Centers, however, have very specialised traffic which may not be represented well in such traces. In the future, specialised Data Center traffic traces may be needed to provide a more realistic test.</p>
+<h1 id="rfc.section.4.4.2"><a href="#rfc.section.4.4.2">4.4.2.</a> <a href="#sec:access-link" id="sec:access-link">Access Link</a></h1>
+<p id="rfc.section.4.4.2.p.1">The access link scenario models an access link connecting an institution (e.g., a university or corporation) to an ISP.  The central and edge links are all 100 Mbps.  The one-way propagation delay of the central link is 2 ms, while the edge links have the delays given in  <a href="#sec:RTTs">Section 4.1</a>. Our goal in assigning delays to edge links is only to give a realistic distribution of round-trip times for traffic on the central link. The Central link buffer size is 100 ms, which is equivalent to the BDP (using the mean RTT).</p>
+<div id="rfc.table.3"/>
+<div id="tab:alloads"/>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+  <caption>Access link scenario parameters (times in seconds).</caption>
+  <thead>
+    <tr>
+      <th class="left">load</th>
+      <th class="left">scale</th>
+      <th class="left">warmup</th>
+      <th class="left">test_duration</th>
+      <th class="left">prefill_t</th>
+      <th class="left">prefill_si</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="left">60%</td>
+      <td class="left">5.276</td>
+      <td class="left">84</td>
+      <td class="left">479</td>
+      <td class="left">36.72</td>
+      <td class="left">19.445</td>
+    </tr>
+    <tr>
+      <td class="left">85%</td>
+      <td class="left">3.812</td>
+      <td class="left">179</td>
+      <td class="left">829</td>
+      <td class="left">52.02</td>
+      <td class="left">30.745</td>
+    </tr>
+    <tr>
+      <td class="left">110%</td>
+      <td class="left">2.947</td>
+      <td class="left">34</td>
+      <td class="left">1423</td>
+      <td class="left">67.32</td>
+      <td class="left">38.078</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.section.4.4.2.1"><a href="#rfc.section.4.4.2.1">4.4.2.1.</a> <a href="#potential-revisions-1" id="potential-revisions-1">Potential Revisions</a></h1>
+<p id="rfc.section.4.4.2.1.p.1">As faster access links become common, the link speed for this scenario will need to be updated accordingly. Also as access link buffer sizes shrink to less than BDP sized buffers, this should be updated to reflect these changes in the Internet.</p>
+<h1 id="rfc.section.4.4.3"><a href="#rfc.section.4.4.3">4.4.3.</a> <a href="#trans-oceanic-link" id="trans-oceanic-link">Trans-Oceanic Link</a></h1>
+<p id="rfc.section.4.4.3.p.1">The trans-oceanic scenario models a test case where mostly lower-delay edge links feed into a high-delay central link.  Both the central and all edge links are 1 Gbps. The central link has 100 ms buffers, and a one-way propagation delay of 65 ms.  65 ms is chosen as a &#8220;typical number&#8221;. The actual delay on real links depends, of course, on their length. For example, Melbourne to Los Angeles is about 85 ms.</p>
+<div id="rfc.table.4"/>
+<div id="tab:toloads"/>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+  <caption>Trans-Oceanic link scenario parameters.</caption>
+  <thead>
+    <tr>
+      <th class="left">load</th>
+      <th class="left">scale</th>
+      <th class="left">warmup</th>
+      <th class="left">test_duration</th>
+      <th class="left">prefill_t</th>
+      <th class="left">prefill_si</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="left">60%</td>
+      <td class="left">0.5179</td>
+      <td class="left">140</td>
+      <td class="left">82.5</td>
+      <td class="left">89.1</td>
+      <td class="left">30.4</td>
+    </tr>
+    <tr>
+      <td class="left">85%</td>
+      <td class="left">0.3091</td>
+      <td class="left">64</td>
+      <td class="left">252.0</td>
+      <td class="left">126.2</td>
+      <td class="left">69.9</td>
+    </tr>
+    <tr>
+      <td class="left">110%</td>
+      <td class="left">0.2   </td>
+      <td class="left">82</td>
+      <td class="left">326.0</td>
+      <td class="left">163.4</td>
+      <td class="left">130.5</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.section.4.4.4"><a href="#rfc.section.4.4.4">4.4.4.</a> <a href="#sec:geost-satell" id="sec:geost-satell">Geostationary Satellite</a></h1>
+<p id="rfc.section.4.4.4.p.1">The geostationary satellite scenario models an asymmetric test case with a high-bandwidth downlink and a low-bandwidth uplink <a href="#HENDERSON99">[HENDERSON99]</a><a href="#GURTOV04">[GURTOV04]</a>.  The scenario modeled is that of nodes connected to a satellite hub which has an asymmetric satellite connection to the master base station which is connected to the Internet. The capacity of the central link is asymmetric&#8212;40 Mbps down, and 4 Mbps up with a one-way propagation delay of 300 ms.  Edge links are all bidirectional 100 Mbps links with one-way delays as given in  <a href="#sec:RTTs">Section 4.1</a>. The central link buffer size is 100 ms for downlink and 1000 ms for uplink. </p>
+<p id="rfc.section.4.4.4.p.2">Note that congestion in this case is often on the 4 Mbps uplink (left to right), even though most of the traffic is in the downlink direction (right to left).</p>
+<div id="rfc.table.5"/>
+<div id="tab:gsloads"/>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+  <caption>Geostationary satellite link scenario parameters.</caption>
+  <thead>
+    <tr>
+      <th class="left">load</th>
+      <th class="left">scale</th>
+      <th class="left">warmup</th>
+      <th class="left">test_duration</th>
+      <th class="left">prefill_t</th>
+      <th class="left">prefill_si</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="left">60%</td>
+      <td class="left">15.0  </td>
+      <td class="left">163</td>
+      <td class="left">2513</td>
+      <td class="left">324.7</td>
+      <td class="left">126.2</td>
+    </tr>
+    <tr>
+      <td class="left">85%</td>
+      <td class="left">9.974</td>
+      <td class="left">230</td>
+      <td class="left">2184</td>
+      <td class="left">460.0</td>
+      <td class="left">219.1</td>
+    </tr>
+    <tr>
+      <td class="left">110%</td>
+      <td class="left">8.062</td>
+      <td class="left">298</td>
+      <td class="left">2481</td>
+      <td class="left">595.3</td>
+      <td class="left">339.5</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.section.4.4.5"><a href="#rfc.section.4.4.5">4.4.5.</a> <a href="#wireless-lan" id="wireless-lan">Wireless LAN</a></h1>
+<p id="rfc.section.4.4.5.p.1">The wireless LAN scenario models WiFi access to a wired backbone, as depicted in <a href="#fig:wirelessdumbell">Figure 3</a>. </p>
+<p id="rfc.section.4.4.5.p.2">The capacity of the central link is 100 Mbps, with a one-way delay of 2 ms. All links to Router 2 are wired. Router 1 acts as a base station for a shared wireless IEEE 802.11g links. Although 802.11g has a peak bit rate of 54 Mbps, its typical throughput rate is much lower, and decreases under high loads and bursty traffic.  The scales specified here are based on a nominal rate of 6 Mbps.</p>
+<p id="rfc.section.4.4.5.p.3">The Node_[123] to Wireless_[123] connections are to allow the same RTT distribution as for the wired scenarios.  This is in addition to delays on the wireless link due to CSMA. <a href="#fig:wirelessdumbell">Figure 3</a> shows how the topology should look in a test bed.</p>
+<div id="rfc.figure.3"/>
+<div id="fig:wirelessdumbell"/>
+<pre>
+Node_1----Wireless_1..                                      Node_4 
+                     :.                                    / 
+                      :...   Base   central link          / 
+Node_2----Wireless_2 ....:..Station-------------- Router_2 --- Node_5
+                      ...: (Router 1)                     \ 
+                     .:                                    \ 
+Node_3----Wireless_3.:                                      Node_6 
+
+</pre>
+<p class="figure">Figure 3: Wireless dumbell topology for a test-bed. Wireless_n are wireless transceivers for connection to the base station.</p>
+<div id="rfc.table.6"/>
+<div id="tab:wloads"/>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+  <caption>Wireless LAN scenario parameters.</caption>
+  <thead>
+    <tr>
+      <th class="left">load</th>
+      <th class="left">scale</th>
+      <th class="left">warmup</th>
+      <th class="left">test_duration</th>
+      <th class="left">prefill_t</th>
+      <th class="left">prefill_si</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="left">60%</td>
+      <td class="left">105.66</td>
+      <td class="left">20</td>
+      <td class="left">4147</td>
+      <td class="left">0</td>
+      <td class="left">0</td>
+    </tr>
+    <tr>
+      <td class="left">85%</td>
+      <td class="left">85.93</td>
+      <td class="left">20</td>
+      <td class="left">5397</td>
+      <td class="left">0</td>
+      <td class="left">0</td>
+    </tr>
+    <tr>
+      <td class="left">110%</td>
+      <td class="left">60.17</td>
+      <td class="left">620</td>
+      <td class="left">1797</td>
+      <td class="left">0</td>
+      <td class="left">0</td>
+    </tr>
+  </tbody>
+</table>
+<p id="rfc.section.4.4.5.p.4">The percentage load for this scenario is based on the sum of the estimate of offered load in both directions since the wireless bottleneck link is a shared media. Also, due to contention for the bottleneck link, the accelerated start up using prefill is not used for this scenario.</p>
+<h1 id="rfc.section.4.4.5.1"><a href="#rfc.section.4.4.5.1">4.4.5.1.</a> <a href="#ns2-implementation-specifics-1" id="ns2-implementation-specifics-1">NS2 implementation specifics</a></h1>
+<p id="rfc.section.4.4.5.1.p.1">In NS2, this is implemented as depicted in <a href="#fig:dumbell">Figure 2</a>.  The delays between Node_1 and Wireless_1 are implemented as delays through the Logical Link layer.</p>
+<p id="rfc.section.4.4.5.1.p.2">Since NS2 doesn&#8217;t have a simple way of measuring transport packet loss on the wireless link, dropped packets are inferred based on flow arrivals and departures (see <a href="#fig:wirelessmeasurements">Figure 4</a>). This gives a good estimate of the average loss rate over a long enough period (long compared with the transit delay of packets), which is the case here.</p>
+<div id="rfc.figure.4"/>
+<div id="fig:wirelessmeasurements"/>
+<pre>
+           logical link
+       X--------------------X
+       |                    | 
+       v                    |
+   n1--+-- .                |  _n4 
+            :               V /
+   n2--+-- .:.C0-------------C1---n5
+            :                 \_
+   n3--+-- .                    n6
+
+</pre>
+<p class="figure">Figure 4: Wireless measurements in the ns2 simulator.</p>
+<h1 id="rfc.section.4.4.5.2"><a href="#rfc.section.4.4.5.2">4.4.5.2.</a> <a href="#potential-revisions-2" id="potential-revisions-2">Potential revisions</a></h1>
+<p id="rfc.section.4.4.5.2.p.1">Wireless standards are continually evolving. This scenario may need updating in the future to reflect these changes.</p>
+<p id="rfc.section.4.4.5.2.p.2">Wireless links have many other unique properties not captured by delay and bitrate.  In particular, the physical layer might suffer from propagation effects that result in packet losses, and the MAC layer might add high jitter under contention or large steps in bandwidth due to adaptive modulation and coding.  Specifying these properties is beyond the scope of the current first version of this test suite but may make useful additions in the future.</p>
+<p id="rfc.section.4.4.5.2.p.3">Latency in this scenario is very much affected by contention for the media. It will be good to have end-to-end delay measurements to quantify this characteristic. This could include per packet latency, application burst completion times, and/or application session completion times.</p>
+<h1 id="rfc.section.4.4.6"><a href="#rfc.section.4.4.6">4.4.6.</a> <a href="#dial-up-link" id="dial-up-link">Dial-up Link</a></h1>
+<p id="rfc.section.4.4.6.p.1">The dial-up link scenario models a network with a dial-up link of 64 kbps and a one-way delay of 5 ms for the central link. This could be thought of as modeling a scenario reported as typical in Africa, with many users sharing a single low-bandwidth dial-up link.  Central link buffer size is 1250 ms. Edge links are 100 Mbps.</p>
+<div id="rfc.table.7"/>
+<div id="tab:duloads"/>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+  <caption>Dial-up link scenario parameters.</caption>
+  <thead>
+    <tr>
+      <th class="left">load</th>
+      <th class="left">scale</th>
+      <th class="left">warmup</th>
+      <th class="left">test_duration</th>
+      <th class="left">prefill_t</th>
+      <th class="left">prefill_si</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="left">60%</td>
+      <td class="left">10981.7</td>
+      <td class="left">280</td>
+      <td class="left">168804</td>
+      <td class="left">559</td>
+      <td class="left">79</td>
+    </tr>
+    <tr>
+      <td class="left">85%</td>
+      <td class="left">7058.5</td>
+      <td class="left">400</td>
+      <td class="left">88094</td>
+      <td class="left">792</td>
+      <td class="left">297</td>
+    </tr>
+    <tr>
+      <td class="left">110%</td>
+      <td class="left">5753.1</td>
+      <td class="left">512</td>
+      <td class="left">69891</td>
+      <td class="left">1025</td>
+      <td class="left">184</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.section.4.4.6.1"><a href="#rfc.section.4.4.6.1">4.4.6.1.</a> <a href="#note-on-parameters" id="note-on-parameters">Note on parameters</a></h1>
+<p id="rfc.section.4.4.6.1.p.1">The traffic offered by Tmix over a low bandwidth link is very bursty. It takes a long time to reach some sort of statistical stability. For event based simulators, this is not too much of a problem, as the number of packets transferred is not prohibitively high, however for test beds these times are prohibitively long. This scenario needs further investigation to address such issue. </p>
+<h1 id="rfc.section.4.4.6.2"><a href="#rfc.section.4.4.6.2">4.4.6.2.</a> <a href="#potential-revisions-3" id="potential-revisions-3">Potential revisions</a></h1>
+<p id="rfc.section.4.4.6.2.p.1">Modems often have asymmetric up and down link rates. Asymmetry is tested in the Geostationary Satellite scenario (<a href="#sec:geost-satell">Section 4.4.4</a>), but the dial-up scenario could be modified to model this as well.</p>
+<h1 id="rfc.section.4.5"><a href="#rfc.section.4.5">4.5.</a> <a href="#metrics-of-interest" id="metrics-of-interest">Metrics of interest</a></h1>
+<p id="rfc.section.4.5.p.1">For each run, the following metrics will be collected for the central link in each direction:</p>
+<p/>
+
+<ol>
+  <li>the aggregate link utilization,</li>
+  <li>the average packet drop rate, and</li>
+  <li>the average queueing delay.</li>
+</ol>
+<p id="rfc.section.4.5.p.3">These measures only provide a general overview of performance.  The goal of this draft is to produce a set of tests that can be &#8220;run&#8221; at all levels of abstraction, from Grid500&#8217;s WAN, through WAN-in-Lab, testbeds and simulations all the way to theory. Researchers may add additional measures to illustrate other performance aspects as required.</p>
+<p id="rfc.section.4.5.p.4">Other metrics of general interest include:</p>
+<p/>
+
+<ol>
+  <li>end-to-end delay measurements</li>
+  <li>flow-centric:  <br/><br/> a. sending rate,  <br/><br/> b. goodput,  <br/><br/> c. cumulative loss and queueing delay trajectory for each flow, over time,  <br/><br/> d. the transfer time per flow versus file size</li>
+  <li>stability properties:  <br/><br/> a. standard deviation of the throughput and the queueing delay for the bottleneck link,  <br/><br/> b. worst case stability measures, especially proving (possibly theoretically) the stability of TCP.</li>
+</ol>
+<h1 id="rfc.section.4.6"><a href="#rfc.section.4.6">4.6.</a> <a href="#potential-revisions-4" id="potential-revisions-4">Potential Revisions</a></h1>
+<p id="rfc.section.4.6.p.1">As with all of the scenarios in this document, the basic scenarios could benefit from more measurement studies about characteristics of congested links in the current Internet, and about trends that could help predict the characteristics of congested links in the future.  This would include more measurements on typical packet drop rates, and on the range of round-trip times for traffic on congested links.</p>
+<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#latency-specific-experiments" id="latency-specific-experiments">Latency specific experiments</a></h1>
+<h1 id="rfc.section.5.1"><a href="#rfc.section.5.1">5.1.</a> <a href="#sec-delay-thruput" id="sec-delay-thruput">Delay/throughput tradeoff as function of queue size</a></h1>
+<p id="rfc.section.5.1.p.1">Performance in data communications is increasingly limited by latency. Smaller and smarter buffers improve this measure, but often at the expense of TCP throughput. The purpose of these tests is to investigate delay-throughput tradeoffs, <em>with and without the particular TCP extension under study</em>.</p>
+<p id="rfc.section.5.1.p.2">Different queue management mechanisms have different delay-throughput tradeoffs. It is envisaged that the tests described here would be extended to explore and compare the performance of different Active Queue Management (AQM) techniques. However, this is an area of active research and beyond the scope of this test suite at this time. For now, it may be better to have a dedicated, separate test suite to look at AQM performance issues.</p>
+<h1 id="rfc.section.5.1.1"><a href="#rfc.section.5.1.1">5.1.1.</a> <a href="#topology" id="topology">Topology</a></h1>
+<p id="rfc.section.5.1.1.p.1">These tests use the topology of <a href="#sec:RTTs">Section 4.1</a>. They are based on the access link scenario (see <a href="#sec:access-link">Section 4.4.2</a>) with the 85% offered load used for this test.</p>
+<p id="rfc.section.5.1.1.p.2">For each Drop-Tail scenario set, five tests are run, with buffer sizes of 10%, 20%, 50%, 100%, and 200% of the Bandwidth Delay Product (BDP) for a 100 ms base RTT flow (the average base RTT in the access link dumbbell scenario is 100 ms).</p>
+<h1 id="rfc.section.5.1.1.1"><a href="#rfc.section.5.1.1.1">5.1.1.1.</a> <a href="#potential-revisions-5" id="potential-revisions-5">Potential revisions</a></h1>
+<p id="rfc.section.5.1.1.1.p.1">Buffer sizing is still an area of research. Results from this research may necessitate changes to the test suite so that it models these changes in the Internet.</p>
+<p id="rfc.section.5.1.1.1.p.2">AQM is currently an area of active research as well. It is envisaged that these tests could be extended to   explore and compare the performance of key AQM techniques when it becomes clear what these will be.  For now a dedicated AQM test suite would best serve such research efforts.</p>
+<h1 id="rfc.section.5.1.2"><a href="#rfc.section.5.1.2">5.1.2.</a> <a href="#flows-under-test-1" id="flows-under-test-1">Flows under test</a></h1>
+<p id="rfc.section.5.1.2.p.1">Two kinds of tests should be run: one where all TCP flows use the TCP modification under study, and another where no TCP flows use such modification, as a &#8220;baseline&#8221; version.</p>
+<p id="rfc.section.5.1.2.p.2">The level of traffic from the traffic generator is the same as that described in <a href="#sec:access-link">Section 4.4.2</a>.</p>
+<h1 id="rfc.section.5.1.3"><a href="#rfc.section.5.1.3">5.1.3.</a> <a href="#metrics-of-interest-1" id="metrics-of-interest-1">Metrics of interest</a></h1>
+<p id="rfc.section.5.1.3.p.1">For each test, three figures are kept: the average throughput, the average packet drop rate, and the average queueing delay over the measurement period.</p>
+<p id="rfc.section.5.1.3.p.2">Ideally it would be better to have more complete statistics, especially for queueing delay where the delay distribution can be important. It would also be good for this to be illustrated with a delay/bandwidth graph, where the x-axis shows the average queueing delay, and the y-axis shows the average throughput. For the drop-rate graph, the x-axis shows the average queueing delay, and the y-axis shows the average packet drop rate. Each pair of graphs illustrates the delay/throughput/drop-rate tradeoffs with and without the TCP mechanism under evaluation. For an AQM mechanism, each pair of graphs also illustrates how the throughput and average queue size vary (or don&#8217;t vary) as a function of the traffic load. Examples of delay/throughput tradeoffs appear in Figures 1-3 of <a href="#FLOYD01">[FLOYD01]</a> and Figures 4-5 of <a href="#ANDREW08">[ANDREW08]</a>.</p>
+<h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#sec:ramp-up-time" id="sec:ramp-up-time">Ramp up time: completion time of one flow</a></h1>
+<p id="rfc.section.5.2.p.1">These tests aim to determine how quickly existing flows make room for new flows.</p>
+<h1 id="rfc.section.5.2.1"><a href="#rfc.section.5.2.1">5.2.1.</a> <a href="#topology-and-background-traffic" id="topology-and-background-traffic">Topology and background traffic</a></h1>
+<p id="rfc.section.5.2.1.p.1">The ramp up time test uses the topology shown in <a href="#fig:RampUpDumbell">Figure 5</a>.  Two long-lived test TCP connections are used in this experiment. Test TCP connection 1 is connected between T_n1 and T_n3, with data flowing from T_n3 to T_n1, and test TCP source 2 is connected between T_n2 and T_n4, with data flowing from T_n4 to T_n2. The background traffic topology is identical to that used in the basic scenarios (see <a href="#sec:basic-scenarios">Section 4</a> and <a href="#fig:dumbell">Figure 2</a>); i.e., background flows run between nodes B_n1 to B_n6.</p>
+<div id="rfc.figure.5"/>
+<div id="fig:RampUpDumbell"/>
+<pre>
+              T_n2                        T_n4
+               |                           |
+               |                           |
+         T_n1  |                           |  T_n3
+            \  |                           | /
+             \ |                           |/
+      B_n1--- R1--------------------------R2--- B_n4
+             / |                           |\
+            /  |                           | \
+        B_n2   |                           |  B_n5
+               |                           |
+              B_n3                        B_n6
+
+</pre>
+<p class="figure">Figure 5: Ramp up dumbbell test topology.</p>
+<p id="rfc.section.5.2.1.p.2">Experiments are conducted with capacities of 10 Mbps and 1 Gbps for the central link. Edge links are 1 Gbps.</p>
+<p id="rfc.section.5.2.1.p.3">For each capacity, three RTT scenarios should be tested, in which the existing and newly arriving flow have RTTs of (80,80), (120,30), and (30,120) respectively. This is achieved by having a central link with 2 ms delay in each direction, and test link delays as shown in <a href="#tab-ramp-up">Table 8</a>.</p>
+<p id="rfc.section.5.2.1.p.4">The buffers in R1 and R2 are sized at BDP (80ms worth of 1500B packet buffering).</p>
+<div id="rfc.table.8"/>
+<div id="tab-ramp-up"/>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+  <caption>Link delays for the test TCP source connections to the central link. Link delays are in milliseconds.</caption>
+  <thead>
+    <tr>
+      <th class="left">RTT scenario</th>
+      <th class="left">T_n1</th>
+      <th class="left">T_n2</th>
+      <th class="left">T_n3</th>
+      <th class="left">T_n4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="left">1</td>
+      <td class="left">0</td>
+      <td class="left">0</td>
+      <td class="left">38</td>
+      <td class="left">38</td>
+    </tr>
+    <tr>
+      <td class="left">2</td>
+      <td class="left">23</td>
+      <td class="left">12</td>
+      <td class="left">35</td>
+      <td class="left">1</td>
+    </tr>
+    <tr>
+      <td class="left">3</td>
+      <td class="left">12</td>
+      <td class="left">23</td>
+      <td class="left">1</td>
+      <td class="left">35</td>
+    </tr>
+  </tbody>
+</table>
+<div id="rfc.table.9"/>
+<div id="tab:rutloads"/>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+  <caption>Ramp-up time scenario parameters (times in seconds).</caption>
+  <thead>
+    <tr>
+      <th class="left">Test</th>
+      <th class="left">Central link</th>
+      <th class="left">Seed offset</th>
+      <th class="left">scale</th>
+      <th class="left">warmup</th>
+      <th class="left">prefill_t</th>
+      <th class="left">prefill_si</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="left">1</td>
+      <td class="left">10 Mbps</td>
+      <td class="left">1</td>
+      <td class="left">77.322</td>
+      <td class="left">12</td>
+      <td class="left">500</td>
+      <td class="left">131.18</td>
+    </tr>
+    <tr>
+      <td class="left">2</td>
+      <td class="left">10 Mbps</td>
+      <td class="left">11</td>
+      <td class="left">72.992</td>
+      <td class="left">114</td>
+      <td class="left">500</td>
+      <td class="left">187.14</td>
+    </tr>
+    <tr>
+      <td class="left">3</td>
+      <td class="left">10 Mbps</td>
+      <td class="left">21</td>
+      <td class="left">68.326</td>
+      <td class="left">12</td>
+      <td class="left">500</td>
+      <td class="left">246.13</td>
+    </tr>
+    <tr>
+      <td class="left">1</td>
+      <td class="left">1 Gbps</td>
+      <td class="left">1</td>
+      <td class="left">0.7  </td>
+      <td class="left">102</td>
+      <td class="left">200</td>
+      <td class="left">100.11</td>
+    </tr>
+    <tr>
+      <td class="left">2</td>
+      <td class="left">1 Gbps</td>
+      <td class="left">11</td>
+      <td class="left">0.7  </td>
+      <td class="left">102</td>
+      <td class="left">200</td>
+      <td class="left">103.07</td>
+    </tr>
+    <tr>
+      <td class="left">3</td>
+      <td class="left">1 Gbps</td>
+      <td class="left">21</td>
+      <td class="left">0.7  </td>
+      <td class="left">102</td>
+      <td class="left">200</td>
+      <td class="left">101.02</td>
+    </tr>
+  </tbody>
+</table>
+<p>For all tests: test_duration = 600 seconds.</p>
+<p id="rfc.section.5.2.1.p.5">For each RTT scenario, three tests are run with a different offset to the random number generator&#8217;s base seed (see <a href="#tab:rutloads">Table 9</a>).</p>
+<p id="rfc.section.5.2.1.p.6">Throughout the experiment, the offered load of the background (or cross) traffic is 50% of the central link capacity in the right to left direction. The background traffic is generated in the same manner as for the basic scenarios (see <a href="#sec:basic-scenarios">Section 4</a>) except that the bin size for shuffling is set to 3 s for all scenarios.</p>
+<p id="rfc.section.5.2.1.p.7">All traffic for this scenario uses the TCP extension under test.</p>
+<h1 id="rfc.section.5.2.2"><a href="#rfc.section.5.2.2">5.2.2.</a> <a href="#flows-under-test-2" id="flows-under-test-2">Flows under test</a></h1>
+<p id="rfc.section.5.2.2.p.1">Traffic is dominated by the two long lived test flows, because we believe that to be the worst case, in which convergence is slowest.</p>
+<p id="rfc.section.5.2.2.p.2">One flow starts in &#8220;equilibrium&#8221; (at least having finished normal slow-start).  A new flow then starts; slow-start is disabled by setting the initial slow-start threshold to the initial CWND.  Slow start is disabled because this is the worst case, and could happen if a loss occurred in the first RTT.</p>
+<p id="rfc.section.5.2.2.p.3">Both of the flows use 1500-byte packets. The test should be run both with Standard TCP and with the TCP extension under test for comparison.</p>
+<h1 id="rfc.section.5.2.2.1"><a href="#rfc.section.5.2.2.1">5.2.2.1.</a> <a href="#potential-revisions-6" id="potential-revisions-6">Potential Revisions</a></h1>
+<p id="rfc.section.5.2.2.1.p.1">It may also be useful to conduct the tests with slow start enabled too, if time permits.</p>
+<h1 id="rfc.section.5.2.3"><a href="#rfc.section.5.2.3">5.2.3.</a> <a href="#metrics-of-interest-2" id="metrics-of-interest-2">Metrics of interest</a></h1>
+<p id="rfc.section.5.2.3.p.1">The output of these experiments are the time until the (1500 * 10^n)-th byte of the new flow is received, for n = 1,2,&#8230; .  This measures how quickly the existing flow releases capacity to the new flow, without requiring a definition of when &#8220;fairness&#8221; has been achieved.  By leaving the upper limit on n unspecified, the test remains applicable to very high-speed networks.</p>
+<p id="rfc.section.5.2.3.p.2">A single run of this test cannot achieve statistical reliability by running for a long time.  Instead, an average over at least three runs should be taken.  Different cross traffic is generated using the standard Tmix trace files by changing the random number seed used to shuffle the traces (as listed in <a href="#tab:rutloads">Table 9</a>).</p>
+<h1 id="rfc.section.5.3"><a href="#rfc.section.5.3">5.3.</a> <a href="#sec:trans-rele-bandw" id="sec:trans-rele-bandw">Transients: release of bandwidth, arrival of many flows</a></h1>
+<p id="rfc.section.5.3.p.1">These tests investigate the impact of a sudden change of congestion level.  They differ from the &#8220;Ramp up time&#8221; test in that the congestion here is caused by unresponsive traffic.</p>
+<p id="rfc.section.5.3.p.2">Note that this scenario has not yet been implemented in the NS2 example test suite.</p>
+<h1 id="rfc.section.5.3.1"><a href="#rfc.section.5.3.1">5.3.1.</a> <a href="#topology-and-background-traffic-1" id="topology-and-background-traffic-1">Topology and background traffic</a></h1>
+<p id="rfc.section.5.3.1.p.1">The network is a single bottleneck link (see <a href="#fig:Transient">Figure 6</a>), with bit rate 100 Mbps, with a buffer of 1024 packets (i.e., 120% of the BDP at 100 ms). Edge links are also 100 Mbps.</p>
+<div id="rfc.figure.6"/>
+<div id="fig:Transient"/>
+<pre>
+           T                                  T
+            \                                /
+             \                              /
+              R1--------------------------R2
+             /                              \
+            /                                \
+           U                                  U
+
+</pre>
+<p class="figure">Figure 6: Transient test topology.</p>
+<p id="rfc.section.5.3.1.p.2">The transient traffic is generated using UDP, to avoid overlap with the ramp-up time scenario (see <a href="#sec:ramp-up-time">Section 5.2</a>) and isolate the behavior of the flows under study.</p>
+<p id="rfc.section.5.3.1.p.3">Three transients are tested:</p>
+<p/>
+
+<ol>
+  <li>step decrease from 75 Mbps to 0 Mbps,</li>
+  <li>step increase from 0 Mbps to 75 Mbps,</li>
+  <li>30 step increases of 2.5 Mbps at 1 s intervals.</li>
+</ol>
+<p id="rfc.section.5.3.1.p.5">These transients occur after the flow under test has exited slow-start, and remain until the end of the experiment.</p>
+<p id="rfc.section.5.3.1.p.6">There is no TCP cross traffic in this experiment.</p>
+<h1 id="rfc.section.5.3.2"><a href="#rfc.section.5.3.2">5.3.2.</a> <a href="#flows-under-test-3" id="flows-under-test-3">Flows under test</a></h1>
+<p id="rfc.section.5.3.2.p.1">There is one flow under test: a long-lived flow in the same direction as the transient traffic, with a 100 ms RTT.  The test should be run both with Standard TCP and with the TCP extension under test for comparison.</p>
+<h1 id="rfc.section.5.3.3"><a href="#rfc.section.5.3.3">5.3.3.</a> <a href="#metrics-of-interest-3" id="metrics-of-interest-3">Metrics of interest</a></h1>
+<p id="rfc.section.5.3.3.p.1">For the decrease in cross traffic, the metrics are</p>
+<p/>
+
+<ol>
+  <li>the time taken for the TCP flow under test to increase its window to 60%, 80% and 90% of its BDP, and</li>
+  <li>the maximum change of the window in a single RTT while the window is increasing to that value.</li>
+</ol>
+<p id="rfc.section.5.3.3.p.3">For cases with an increase in cross traffic, the metric is the number of <em>cross traffic</em> packets dropped from the start of the transient until 100 s after the transient.  This measures the harm caused by algorithms which reduce their rates too slowly on congestion.</p>
+<h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#throughput-and-fairness-related-experiments" id="throughput-and-fairness-related-experiments">Throughput- and fairness-related experiments</a></h1>
+<h1 id="rfc.section.6.1"><a href="#rfc.section.6.1">6.1.</a> <a href="#impact-on-standard-tcp-traffic" id="impact-on-standard-tcp-traffic">Impact on standard TCP traffic</a></h1>
+<p id="rfc.section.6.1.p.1">Many new TCP proposals achieve a gain, G, in their own throughput at the expense of a loss, L, in the throughput of standard TCP flows sharing a bottleneck, as well as by increasing the link utilization.  In this context a &#8220;standard TCP flow&#8221; is defined as a flow using SACK TCP <a href="#RFC2883">[RFC2883]</a> but without ECN <a href="#RFC3168">[RFC3168]</a>.</p>
+<p id="rfc.section.6.1.p.2">The intention is for a &#8220;standard TCP flow&#8221; to correspond to TCP as commonly deployed in the Internet today (with the notable exception of CUBIC, which runs by default on the majority of web servers).  This scenario quantifies this trade off.</p>
+<h1 id="rfc.section.6.1.1"><a href="#rfc.section.6.1.1">6.1.1.</a> <a href="#topology-and-background-traffic-2" id="topology-and-background-traffic-2">Topology and background traffic</a></h1>
+<p id="rfc.section.6.1.1.p.1">The basic dumbbell topology of <a href="#sec:RTTs">Section 4.1</a> is used with the same capacities as for the ramp-up time tests in <a href="#sec:ramp-up-time">Section 5.2</a>.  All traffic in this scenario comes from the flows under test.</p>
+<div id="rfc.figure.7"/>
+<div id="fig:impact"/>
+<pre>
+              A_1                                  A_4
+              B_1                                  B_4 
+                 \                                / 
+                  \        central link          / 
+          A_2 --- Router_1 -------------- Router_2 --- A_5 
+          B_2     /                              \     B_5
+                 /                                \ 
+              A_3                                  A_6
+              B_3                                  B_6
+
+</pre>
+<p class="figure">Figure 7: Dumbbell Topology for Assessing Impact on Standard TCP.</p>
+<h1 id="rfc.section.6.1.2"><a href="#rfc.section.6.1.2">6.1.2.</a> <a href="#flows-under-test-4" id="flows-under-test-4">Flows under test</a></h1>
+<p id="rfc.section.6.1.2.p.1">The scenario is performed by conducting pairs of experiments, with identical flow arrival times and flow sizes.  Within each experiment, flows are divided into two camps.  For every flow in camp A, there is a flow with the same size, source and destination in camp B, and vice versa.</p>
+<p id="rfc.section.6.1.2.p.2">These experiments use duplicate copies of the Tmix traces used in the basic scenarios (see <a href="#sec:basic-scenarios">Section 4</a>). Two offered loads are tested: 50% and 100%. </p>
+<p id="rfc.section.6.1.2.p.3">Two experiments are conducted. A BASELINE experiment where both camp A and camp B use standard TCP.  In the second, called MIX, camp A uses standard TCP and camp B uses the new TCP extension under evaluation.</p>
+<p id="rfc.section.6.1.2.p.4">The rationale for having paired camps is to remove the statistical uncertainty which would come from randomly choosing half of the flows to run each algorithm.  This way, camp A and camp B have the same loads.</p>
+<div id="rfc.table.10"/>
+<div id="tab:itloads"/>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+  <caption>Impact on Standard TCP scenario parameters.</caption>
+  <thead>
+    <tr>
+      <th class="left">load</th>
+      <th class="left">scale</th>
+      <th class="left">warmup</th>
+      <th class="left">test_duration</th>
+      <th class="left">prefill_t</th>
+      <th class="left">prefill_si</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="left">50%</td>
+      <td class="left">13.587</td>
+      <td class="left">26</td>
+      <td class="left">508</td>
+      <td class="left">45.90</td>
+      <td class="left">14.61</td>
+    </tr>
+    <tr>
+      <td class="left">100%</td>
+      <td class="left">5.780</td>
+      <td class="left">50</td>
+      <td class="left">498</td>
+      <td class="left">91.80</td>
+      <td class="left">22.97</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.section.6.1.3"><a href="#rfc.section.6.1.3">6.1.3.</a> <a href="#metrics-of-interest-4" id="metrics-of-interest-4">Metrics of interest</a></h1>
+<p id="rfc.section.6.1.3.p.1">The gain achieved by the new algorithm and loss incurred by standard TCP are given, respectively, by G = T(B)_Mix/T(B)_Baseline and L = T(A)_Mix/T(A)_Baseline where T(x) is the throughput obtained by camp x, measured as the amount of data acknowledged by the receivers (that is, &#8220;goodput&#8221;).</p>
+<p id="rfc.section.6.1.3.p.2">The loss, L, is analogous to the &#8220;bandwidth stolen from TCP&#8221; in <a href="#SOUZA03">[SOUZA03]</a> and &#8220;throughput degradation&#8221; in <a href="#SHIMONISHI07">[SHIMONISHI07]</a>.</p>
+<p id="rfc.section.6.1.3.p.3">A plot of G vs L represents the tradeoff between efficiency and loss.</p>
+<h1 id="rfc.section.6.1.3.1"><a href="#rfc.section.6.1.3.1">6.1.3.1.</a> <a href="#suggestions" id="suggestions">Suggestions</a></h1>
+<p id="rfc.section.6.1.3.1.p.1">Other statistics of interest are the values of G and L for each quartile of file sizes.  This will reveal whether the new proposal is more aggressive in starting up or more reluctant to release its share of capacity.</p>
+<p id="rfc.section.6.1.3.1.p.2">As always, testing at other loads and averaging over multiple runs is encouraged.</p>
+<h1 id="rfc.section.6.2"><a href="#rfc.section.6.2">6.2.</a> <a href="#sec:intra-protocol-inter-RTT" id="sec:intra-protocol-inter-RTT">Intra-protocol and inter-RTT fairness</a></h1>
+<p id="rfc.section.6.2.p.1">These tests aim to measure bottleneck bandwidth sharing among flows of the same protocol with the same RTT, which represents the flows going through the same routing path.  The tests also measure inter-RTT fairness, the bandwidth sharing among flows of the same protocol where routing paths have a common bottleneck segment but might have different overall paths with different RTTs. </p>
+<h1 id="rfc.section.6.2.1"><a href="#rfc.section.6.2.1">6.2.1.</a> <a href="#topology-and-background-traffic-3" id="topology-and-background-traffic-3">Topology and background traffic</a></h1>
+<p id="rfc.section.6.2.1.p.1">The topology, the capacity and cross traffic conditions of these tests are the same as in <a href="#sec:ramp-up-time">Section 5.2</a>.  The bottleneck buffer is varied from 25% to 200% of the BDP for a 100 ms base RTT flow, increasing by factors of 2.</p>
+<h1 id="rfc.section.6.2.2"><a href="#rfc.section.6.2.2">6.2.2.</a> <a href="#flows-under-test-5" id="flows-under-test-5">Flows under test</a></h1>
+<p id="rfc.section.6.2.2.p.1">We use two flows of the same protocol variant for this experiment.  The RTTs of the flows range from 10 ms to 160 ms (10 ms, 20 ms, 40 ms, 80 ms, and 160 ms) such that the ratio of the minimum RTT over the maximum RTT is at most 1/16.</p>
+<h1 id="rfc.section.6.2.2.1"><a href="#rfc.section.6.2.2.1">6.2.2.1.</a> <a href="#intra-protocol-fairness" id="intra-protocol-fairness">Intra-protocol fairness</a></h1>
+<p id="rfc.section.6.2.2.1.p.1">For each run, two flows with the same RTT, taken from the range of RTTs above, start randomly within the first 10% of the experiment duration.  The order in which these flows start doesn&#8217;t matter. An additional test of interest, but not part of this suite, would involve two extreme cases &#8211; two flows with very short or long RTTs (e.g., a delay less than 1-2 ms representing communication happening in a data-center, and a delay larger than 600 ms representing communication over a satellite link).</p>
+<h1 id="rfc.section.6.2.2.2"><a href="#rfc.section.6.2.2.2">6.2.2.2.</a> <a href="#inter-rtt-fairness" id="inter-rtt-fairness">Inter-RTT fairness</a></h1>
+<p id="rfc.section.6.2.2.2.p.1">For each run, one flow with a fixed RTT of 160 ms starts first, and another flow with a different RTT taken from the range of RTTs above, joins afterward.  The starting times of both two flows are randomly chosen within the first 10% of the experiment as before.</p>
+<h1 id="rfc.section.6.2.3"><a href="#rfc.section.6.2.3">6.2.3.</a> <a href="#metrics-of-interest-5" id="metrics-of-interest-5">Metrics of interest</a></h1>
+<p id="rfc.section.6.2.3.p.1">The output of this experiment is the ratio of the average throughput values of the two flows.  The output also includes the packet drop rate for the congested link.</p>
+<h1 id="rfc.section.6.3"><a href="#rfc.section.6.3">6.3.</a> <a href="#multiple-bottlenecks" id="multiple-bottlenecks">Multiple bottlenecks</a></h1>
+<p id="rfc.section.6.3.p.1">These experiments explore the relative bandwidth for a flow that traverses multiple bottlenecks, with respect to that of flows that have the same round-trip time but each traverse only one of the bottleneck links.</p>
+<h1 id="rfc.section.6.3.1"><a href="#rfc.section.6.3.1">6.3.1.</a> <a href="#topology-and-traffic" id="topology-and-traffic">Topology and traffic</a></h1>
+<p id="rfc.section.6.3.1.p.1">The topology is a &#8220;parking-lot&#8221; topology with three (horizontal) bottleneck links and four (vertical) access links.  The bottleneck links have a rate of 100 Mbps, and the access links have a rate of 1 Gbps. </p>
+<p id="rfc.section.6.3.1.p.2">All flows have a round-trip time of 60 ms, to enable the effect of traversing multiple bottlenecks to be distinguished from that of different round trip times.</p>
+<p id="rfc.section.6.3.1.p.3">This can be achieved in both a symmetric and asymmetric way (see <a href="#fig:Asymmetricparkinglot">Figure 8</a> and <a href="#fig:Symmetricparkinglot">Figure 9</a>).  It is not clear whether there are interesting performance differences between these two topologies, and if so, which is more typical of the actual Internet.</p>
+<div id="rfc.figure.8"/>
+<div id="fig:Asymmetricparkinglot"/>
+<pre>
+ &gt; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - &gt;
+  __________ 0ms _________________ 0ms __________________ 30ms ____
+ |   ................  |   ................  |   ................  |
+ |   :              :  |   :              :  |   :              :  |
+ |   :              :  |   :              :  |   :              :  |
+0ms  :              : 30ms :              : 0ms  :              : 0ms
+ |   ^              V  |   ^              V  |   ^              V  |
+
+</pre>
+<p class="figure">Figure 8: Asymmetric parking lot topology.</p>
+<div id="rfc.figure.9"/>
+<div id="fig:Symmetricparkinglot"/>
+<pre>
+   &gt; - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - &gt;
+    __________ 10ms _______________ 10ms ________________ 10ms ___ 
+   |   ...............  |   ...............  |   ...............  |
+   |   :             :  |   :             :  |   :             :  |
+   |   :             :  |   :             :  |   :             :  |
+  10ms :             : 10ms :             : 10ms :             : 10ms
+   |   ^             V  |   ^             V  |   ^             V  |
+
+</pre>
+<p class="figure">Figure 9: Symmetric parking lot topology.</p>
+<p id="rfc.section.6.3.1.p.4">The three hop topology used in the test suite is based on the symmetric topology (see <a href="#fig:parkinglot">Figure 10</a>). Bidirectional traffic flows between Nodes 1 and 8, 2 and 3, 4 and 5, and 6 and 7.</p>
+<div id="rfc.figure.10"/>
+<div id="fig:parkinglot"/>
+<pre>
+           Node_1          Node_3     Node_5         Node_7 
+               \              |          |             / 
+                \             |10ms      |10ms        /10ms
+              0ms\            |          |           / 
+                  \      A    |    B     |   C      /
+                Router1 ---Router2---Router3--- Router4  
+                  /    10ms   |   10ms   |  10ms    \ 
+                 /            |          |           \ 
+            10ms/             |10ms      |10ms        \ 0ms
+               /              |          |             \ 
+          Node_2           Node_4     Node_6         Node_8 
+    
+ Flow 1: Node_1 &lt;--&gt; Node_8    
+ Flow 2: Node_2 &lt;--&gt; Node_3
+ Flow 3: Node_4 &lt;--&gt; Node_5
+ Flow 4: Node_6 &lt;--&gt; Node_7
+
+</pre>
+<p class="figure">Figure 10: Test suite parking lot topology.</p>
+<p id="rfc.section.6.3.1.p.5">The r4s1.org Tmix trace file is used to generate the traffic. Each Tmix source offers the same load for each experiment. Three experiments are conducted at 30%, 40%, and 50% offered loads per Tmix source. As two sources share each of the three bottlenecks (A,B,C), the combined offered loads on the bottlenecks is 60%, 80%, and 100% respectively.</p>
+<p id="rfc.section.6.3.1.p.6">All traffic uses the new TCP extension under test.</p>
+<div id="rfc.table.11"/>
+<div id="tab:mbloads"/>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+  <caption>Multiple bottleneck scenario parameters.</caption>
+  <thead>
+    <tr>
+      <th class="left">load</th>
+      <th class="left">scale</th>
+      <th class="left">warmup</th>
+      <th class="left">test_duration</th>
+      <th class="left">prefill_t</th>
+      <th class="left">prefill_si</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="left">60%</td>
+      <td class="left">1.1904</td>
+      <td class="left">173</td>
+      <td class="left">470</td>
+      <td class="left">41.4</td>
+      <td class="left">6.827</td>
+    </tr>
+    <tr>
+      <td class="left">80%</td>
+      <td class="left">0.9867</td>
+      <td class="left">37</td>
+      <td class="left">2052</td>
+      <td class="left">55.2</td>
+      <td class="left">6.858</td>
+    </tr>
+    <tr>
+      <td class="left">100%</td>
+      <td class="left">0.7222</td>
+      <td class="left">38</td>
+      <td class="left">1338</td>
+      <td class="left">69.0</td>
+      <td class="left">13.740</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.section.6.3.1.1"><a href="#rfc.section.6.3.1.1">6.3.1.1.</a> <a href="#potential-revisions-7" id="potential-revisions-7">Potential Revisions</a></h1>
+<p id="rfc.section.6.3.1.1.p.1">Parking lot models with more hops may also be of interest.</p>
+<h1 id="rfc.section.6.3.2"><a href="#rfc.section.6.3.2">6.3.2.</a> <a href="#metrics-of-interest-6" id="metrics-of-interest-6">Metrics of interest</a></h1>
+<p id="rfc.section.6.3.2.p.1">The output for this experiment is the ratio between the average throughput of the single-bottleneck flows and the throughput of the multiple-bottleneck flow, measured after the warmup period.  Output also includes the packet drop rate for the congested link.</p>
+<h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#implementations" id="implementations">Implementations</a></h1>
+<p id="rfc.section.7.p.1">At the moment the only implementation effort is using the NS2 simulator. It is still a work in progress, but contains the base to most of the tests, as well as the algorithms that determined the test parameters. It is being made available to the community for further development and verification through <a href="https://bitbucket.org/hayesd/tcp-evaluation-suite-public">https://bitbucket.org/hayesd/tcp-evaluation-suite-public</a>.</p>
+<p id="rfc.section.7.p.2">At the moment there are no ongoing test bed implementations. We invite the community to initiate and contribute to the development of these test beds.</p>
+<h1 id="rfc.section.8"><a href="#rfc.section.8">8.</a> <a href="#acknowledgements" id="acknowledgements">Acknowledgements</a></h1>
+<p id="rfc.section.8.p.1">This work is based on a paper by Lachlan Andrew, Cesar Marcondes, Sally Floyd, Lawrence Dunn, Romaric Guillier, Wang Gang, Lars Eggert, Sangtae Ha and Injong Rhee <a href="#TESTSUITE08">[TESTSUITE08]</a>.</p>
+<p id="rfc.section.8.p.2">The authors would also like to thank Roman Chertov, Doug Leith, Saverio Mascolo, Ihsan Qazi, Bob Shorten, David Wei and Michele Weigle for valuable feedback and acknowledge the work of Wang Gang to start the NS2 implementation.</p>
+<p id="rfc.section.8.p.3">This work has been partly funded by the European Community under its Seventh Framework Programme through the Reducing Internet Transport Latency (RITE) project (ICT-317700), by the Aurora&#8211;Hubert Curien Partnership program &#8220;ANT&#8221; (28844PD / 221629), and under Australian Research Council&#8217;s Discovery Projects funding scheme (project number 0985322).</p>
+<h1 id="rfc.references"><a href="#rfc.references">9.</a> Informative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="ALIZADEH10">[ALIZADEH10]</b>
+      </td>
+      <td class="top"><a>Alizadeh, M.</a>, <a>Greenberg, A.</a>, <a>Maltz, D.</a>, <a>Padhye, J.</a>, <a>Patel, P.</a>, <a>Prabhakar, B.</a>, <a>Sengupta, S.</a> and <a>M. Sridharan</a>, "<a>Data center TCP (DCTCP)</a>", ACM SIGCOMM 2010 , 2010.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="ANDREW08">[ANDREW08]</b>
+      </td>
+      <td class="top"><a>Andrew, L.</a>, <a>Hanly, S.</a> and <a>R. Mukhtar</a>, "<a>Active Queue Management for Fair Resource Allocation in Wireless Networks</a>", IEEE Transactions on Mobile Computing , February 2008.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="FLOYD01">[FLOYD01]</b>
+      </td>
+      <td class="top"><a>Floyd, S.</a>, <a>Gummadi, R.</a> and <a>S. Shenker</a>, "<a href="http://www.icir.org/floyd/papers/adaptiveRed.pdf">Adaptive RED: An Algorithm for Increasing the Robustness of RED</a>", ICIR Technical Report , 2001.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="FLOYD03">[FLOYD03]</b>
+      </td>
+      <td class="top"><a>Floyd, S.</a> and <a>E. Kohler</a>, "<a>Internet research needs better models</a>", SIGCOMM Computer Communication Review , January 2003.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="GENITMIX">[GENITMIX]</b>
+      </td>
+      <td class="top"><a>GENI project</a>, "<a href="http://groups.geni.net/geni/wiki/GeniTmix">Tmix on ProtoGENI</a>", .</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="GURTOV04">[GURTOV04]</b>
+      </td>
+      <td class="top"><a>Gurtov, A.</a> and <a>S. Floyd</a>, "<a>Modeling wireless links for transport protocols</a>", SIGCOMM Computer Communication Review , April 2004.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="HENDERSON99">[HENDERSON99]</b>
+      </td>
+      <td class="top"><a>Henderson, T.</a> and <a>R. Katz</a>, "<a>Transport protocols for Internet-compatible satellite networks</a>", IEEE Journal on Selected Areas in Communications , 1999.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="HOHN03">[HOHN03]</b>
+      </td>
+      <td class="top"><a>Hohn, N.</a>, <a>Veitch, D.</a> and <a>P. Abry</a>, "<a>The impact of the flow arrival process in Internet traffic</a>", IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP '03) , 2003.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D-TMRG-TESTS">[I-D-TMRG-TESTS]</b>
+      </td>
+      <td class="top"><a>Andrew, L.</a>, <a>Floyd, S.</a> and <a>W. Gang</a>, "<a href="http://tools.ietf.org/html/draft-irtf-tmrg-tests">Common TCP Evaluation Suite</a>", Internet Draft draft-irtf-tmrg-tests-02, work in progress , July 2009.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="KELLY79">[KELLY79]</b>
+      </td>
+      <td class="top"><a>Kelly, F.</a>, "<a>Reversibility and stochastic networks</a>", University of Cambridge Statistical Laboratory , 1979.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="MASCOLO06">[MASCOLO06]</b>
+      </td>
+      <td class="top"><a>Mascolo, S.</a> and <a>F. Vacirca</a>, "<a>The Effect of Reverse Traffic on the Performance of New TCP Congestion Control Algorithms for Gigabit Networks</a>", Protocols for Fast, Long Distance Networks (PFLDnet) , 2006.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC2883">[RFC2883]</b>
+      </td>
+      <td class="top"><a>Floyd, S.</a>, <a>Mahdavi, J.</a>, <a>Mathis, M.</a> and <a>M. Podolsky</a>, "<a href="http://tools.ietf.org/html/rfc2883">An Extension to the Selective Acknowledgement (SACK) Option for TCP</a>", RFC 2883, July 2000.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC3168">[RFC3168]</b>
+      </td>
+      <td class="top"><a>Ramakrishnan, K.</a>, <a>Floyd, S.</a> and <a>D. Black</a>, "<a href="http://tools.ietf.org/html/rfc3168">The Addition of Explicit Congestion Notification (ECN) to IP</a>", RFC 3168, September 2001.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="ROSSI03">[ROSSI03]</b>
+      </td>
+      <td class="top"><a>Rossi, D.</a>, <a>Mellia, M.</a> and <a>C. Casetti</a>, "<a>User patience and the Web: a hands-on investigation</a>", IEEE GLOBECOM , 2003.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="SHIMONISHI07">[SHIMONISHI07]</b>
+      </td>
+      <td class="top"><a>Shimonishi, H.</a>, <a>Sanadidi, M.</a> and <a>T. Murase</a>, "<a>Assessing Interactions among Legacy and High-Speed TCP Protocols</a>", Protocols for Fast, Long Distance Networks (PFLDnet) , 2007.</td>
+    </tr>
+    <tr><td class="reference"><b id="SHUFFLEWIKI">[SHUFFLEWIKI]</b></td><td class="top"><a href="http://en.wikipedia.org/wiki/Fisher-Yates_shuffle">Fisher-Yates shuffle</a>", .</td>, "</tr>
+    <tr>
+      <td class="reference">
+        <b id="SOUZA03">[SOUZA03]</b>
+      </td>
+      <td class="top"><a>Souza, E.</a> and <a>D. Agarwal</a>, "<a>A HighSpeed TCP Study: Characteristics and Deployment Issues</a>", LBNL Technical Report LBNL-53215 , 2003.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="TESTSUITE08">[TESTSUITE08]</b>
+      </td>
+      <td class="top"><a>Andrew, L.</a>, <a>Marcondes, C.</a>, <a>Floyd, S.</a>, <a>Dunn, L.</a>, <a>Guillier, R.</a>, <a>Gang, W.</a>, <a>Eggert, L.</a>, <a>Ha, S.</a> and <a>I. Rhee</a>, "<a href="http://www.caia.swin.edu.au/cv/landrew/pubs/TCP-suite-PFLDnet.pdf">Towards a Common TCP Evaluation Suite</a>", Protocols for Fast, Long Distance Networks (PFLDnet) , March 2008.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="TRACES">[TRACES]</b>
+      </td>
+      <td class="top"><a>Caltech</a>, <a href="http://web.archive.org/web/20100711061914/http://wil-ns.cs.caltech.edu/~benchmark/traffic/">Tmix trace generation for the TCP evaluation suite</a>", n.d..</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="WEIGLE06">[WEIGLE06]</b>
+      </td>
+      <td class="top"><a>Weigle, M.</a>, <a>Adurthi, P.</a>, <a>Hernandez-Campos, F.</a>, <a>Jeffay, K.</a> and <a>F. Smith</a>, "<a>Tmix: a tool for generating realistic TCP application workloads in ns-2</a>", SIGCOMM Computer Communication Review , July 2006.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.appendix.A"><a href="#rfc.appendix.A">Appendix A.</a> <a href="#discussions-on-traffic" id="discussions-on-traffic">Discussions on Traffic</a></h1>
+<p id="rfc.section.A.p.1">While the protocols being tested may differ, it is important that we maintain the same &#8220;load&#8221; or level of congestion for the experimental scenarios.  To enable this, we use a hybrid of open-loop and close-loop approaches.  For this test suite, network traffic consists of sessions corresponding to individual users.  Because users are independent, these session arrivals are well modeled by an open-loop Poisson process.  A session may consist of a single greedy TCP flow, multiple greedy flows separated by user &#8220;think&#8221; times, a single non-greedy flow with embedded think times, or many non-greedy &#8220;thin stream&#8221; flows.  The session arrival process forms a Poisson process <a href="#HOHN03">[HOHN03]</a>.  Both the think times and burst sizes have heavy-tailed distributions, with the exact distribution based on empirical studies.  The think times and burst sizes will be chosen independently.  This is unlikely to be the case in practice, but we have not been able to find any measurements of the joint distribution.  We invite researchers to study this joint distribution, and future revisions of this test suite will use such statistics when they are available.</p>
+<p id="rfc.section.A.p.2">For most current traffic generators, the traffic is specified by an arrival rate for independent user sessions, along with specifications of connection sizes, number of connections per sessions, user wait times within sessions, and the like. Because the session arrival times are specified independently of the transfer times, one way to specify the load would be as</p>
+<pre>
+  A = E[f]/E[t],
+</pre>
+<p id="rfc.section.A.p.3">where E[f] is the mean session size (in bits transferred), E[t] is the mean session inter-arrival time in seconds, and A is the load in bps.</p>
+<p id="rfc.section.A.p.4">Instead, for equilibrium experiments, we measure the load as the &#8220;mean number of jobs in an M/G/1 queue using processor sharing,&#8221; where a job is a user session.  This reflects the fact that TCP aims at processor sharing of variable sized files.  Because processor sharing is a symmetric discipline <a href="#KELLY79">[KELLY79]</a>, the mean number of flows is equal to that of an M/M/1 queue, namely rho/(1-rho), where rho=lambda S/C, and lambda is the arrival rate of jobs/flows (in flows per second), S is the mean job size (in bits) and C is the bottleneck capacity (in bits per second).  For small loads, say 10%, this is essentially equal to the fraction of the capacity that is used.  However, for overloaded systems, the fraction of the bandwidth used will be much less than this measure of load.</p>
+<p id="rfc.section.A.p.5">In order to minimize the dependence of the results on the experiment durations, scenarios should be as stationary as possible.  To this end, experiments will start with rho/(1-rho) active cross-traffic flows, with traffic of the specified load.</p>
+<h1 id="rfc.authors">
+  <a href="#rfc.authors">Authors' Addresses</a>
+</h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">David Hayes</span> 
+	  <span class="n hidden">
+		<span class="family-name">Hayes</span>
+	  </span>
+	</span>
+	<span class="org vcardline">University of Oslo</span>
+	<span class="adr">
+	  <span class="vcardline">Department of Informatics, P.O. Box 1080 Blindern</span>
+
+	  <span class="vcardline">
+		<span class="locality">Oslo</span>,  
+		<span class="region"></span>
+		<span class="code">N-0316</span>
+	  </span>
+	  <span class="country-name vcardline">Norway</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:davihay@ifi.uio.no">davihay@ifi.uio.no</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">David Ros</span> 
+	  <span class="n hidden">
+		<span class="family-name">Ros</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Simula Research Laboratory</span>
+	<span class="adr">
+	  <span class="vcardline">P.O. Box 134</span>
+
+	  <span class="vcardline">
+		<span class="locality">Lysaker</span>,  
+		<span class="region"></span>
+		<span class="code">1325</span>
+	  </span>
+	  <span class="country-name vcardline">Norway</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:dros@simula.no">dros@simula.no</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Lachlan L.H. Andrew</span> 
+	  <span class="n hidden">
+		<span class="family-name">Andrew</span>
+	  </span>
+	</span>
+	<span class="org vcardline">CAIA Swinburne University of Technology</span>
+	<span class="adr">
+	  <span class="vcardline">P.O. Box 218, John Street</span>
+
+	  <span class="vcardline">
+		<span class="locality">Hawthorn</span>,  
+		<span class="region"></span>
+		<span class="code">Victoria 3122</span>
+	  </span>
+	  <span class="country-name vcardline">Australia</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:lachlan.andrew@gmail.com">lachlan.andrew@gmail.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Sally Floyd</span> 
+	  <span class="n hidden">
+		<span class="family-name">Floyd</span>
+	  </span>
+	</span>
+	<span class="org vcardline">ICSI</span>
+	<span class="adr">
+	  <span class="vcardline">1947 Center Street, Ste. 600</span>
+
+	  <span class="vcardline">
+		<span class="locality">Berkeley</span>,  
+		<span class="region"></span>
+		<span class="code">CA 94704</span>
+	  </span>
+	  <span class="country-name vcardline">United States</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:floyd@acm.org">floyd@acm.org</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
