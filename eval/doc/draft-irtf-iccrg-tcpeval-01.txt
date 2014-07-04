@@ -5,12 +5,12 @@
 Network Working Group                                           D. Hayes
 Internet-Draft                                        University of Oslo
 Intended status: Informational                                    D. Ros
-Expires: December 27, 2014                    Simula Research Laboratory
+Expires: January 5, 2015                      Simula Research Laboratory
                                                                L. Andrew
-                                 CAIA Swinburne University of Technology
+                                                       Monash University
                                                                 S. Floyd
                                                                     ICSI
-                                                           June 25, 2014
+                                                            July 4, 2014
 
 
                       Common TCP Evaluation Suite
@@ -48,14 +48,14 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 27, 2014.
+   This Internet-Draft will expire on January 5, 2015.
 
 
 
 
-Hayes, et al.           Expires December 27, 2014               [Page 1]
+Hayes, et al.            Expires January 5, 2015                [Page 1]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
 Copyright Notice
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Hayes, et al.           Expires December 27, 2014               [Page 2]
+Hayes, et al.            Expires January 5, 2015                [Page 2]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
        5.1.2.  Flows under test  . . . . . . . . . . . . . . . . . .  20
@@ -165,9 +165,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014               [Page 3]
+Hayes, et al.            Expires January 5, 2015                [Page 3]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    extension will need to include several standard scenarios, and it is
@@ -221,9 +221,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014               [Page 4]
+Hayes, et al.            Expires January 5, 2015                [Page 4]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    even flow arrivals are influenced by the behavior of the algorithms.
@@ -277,9 +277,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014               [Page 5]
+Hayes, et al.            Expires January 5, 2015                [Page 5]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    These traces contain a mixture of connections, from very short flows
@@ -315,7 +315,7 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
        experiment_cv_start_time = scale * cv_start_time              (1)
 
    where cv_start_time denotes the connection vector start time in the
-   Tmix traces and experiment_start_time is the time the connection
+   Tmix traces and experiment_cv_start_time is the time the connection
    starts in the experiment.  Therefore, the smaller the scale the
    higher (in general) the traffic load.
 
@@ -333,9 +333,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014               [Page 6]
+Hayes, et al.            Expires January 5, 2015                [Page 6]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
 2.3.2.  Dealing with non-stationarity
@@ -389,9 +389,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014               [Page 7]
+Hayes, et al.            Expires January 5, 2015                [Page 7]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    However, the proportion of offered traffic will be consistent for
@@ -445,9 +445,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014               [Page 8]
+Hayes, et al.            Expires January 5, 2015                [Page 8]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
        within a 5% tolerance.  The length of the trace files becomes the
@@ -501,9 +501,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014               [Page 9]
+Hayes, et al.            Expires January 5, 2015                [Page 9]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    Experiment tables specify the prefill_t value to be used in each
@@ -557,9 +557,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 10]
+Hayes, et al.            Expires January 5, 2015               [Page 10]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
 4.1.  Basic topology
@@ -613,9 +613,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 11]
+Hayes, et al.            Expires January 5, 2015               [Page 11]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
 4.2.  Traffic
@@ -669,9 +669,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 12]
+Hayes, et al.            Expires January 5, 2015               [Page 12]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
     +------+--------+--------+---------------+-----------+------------+
@@ -725,9 +725,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 13]
+Hayes, et al.            Expires January 5, 2015               [Page 13]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
 4.4.2.1.  Potential Revisions
@@ -781,9 +781,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 14]
+Hayes, et al.            Expires January 5, 2015               [Page 14]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
     +------+--------+--------+---------------+-----------+------------+
@@ -837,9 +837,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 15]
+Hayes, et al.            Expires January 5, 2015               [Page 15]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
     +------+--------+--------+---------------+-----------+------------+
@@ -893,9 +893,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 16]
+Hayes, et al.            Expires January 5, 2015               [Page 16]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    Wireless links have many other unique properties not captured by
@@ -949,9 +949,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 17]
+Hayes, et al.            Expires January 5, 2015               [Page 17]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
 4.5.  Metrics of interest
@@ -1005,9 +1005,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 18]
+Hayes, et al.            Expires January 5, 2015               [Page 18]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    This would include more measurements on typical packet drop rates,
@@ -1061,9 +1061,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 19]
+Hayes, et al.            Expires January 5, 2015               [Page 19]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
 5.1.2.  Flows under test
@@ -1117,9 +1117,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 20]
+Hayes, et al.            Expires January 5, 2015               [Page 20]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
                  T_n2                        T_n4
@@ -1173,9 +1173,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 21]
+Hayes, et al.            Expires January 5, 2015               [Page 21]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    +-----+---------+--------+--------+--------+-----------+------------+
@@ -1229,9 +1229,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 22]
+Hayes, et al.            Expires January 5, 2015               [Page 22]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
 5.2.2.1.  Potential Revisions
@@ -1285,9 +1285,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 23]
+Hayes, et al.            Expires January 5, 2015               [Page 23]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    The transient traffic is generated using UDP, to avoid overlap with
@@ -1341,9 +1341,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 24]
+Hayes, et al.            Expires January 5, 2015               [Page 24]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    The intention is for a "standard TCP flow" to correspond to TCP as
@@ -1397,9 +1397,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 25]
+Hayes, et al.            Expires January 5, 2015               [Page 25]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
     +------+--------+--------+---------------+-----------+------------+
@@ -1453,9 +1453,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 26]
+Hayes, et al.            Expires January 5, 2015               [Page 26]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
 6.2.2.  Flows under test
@@ -1509,9 +1509,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 27]
+Hayes, et al.            Expires January 5, 2015               [Page 27]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    This can be achieved in both a symmetric and asymmetric way (see
@@ -1565,9 +1565,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 28]
+Hayes, et al.            Expires January 5, 2015               [Page 28]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
               Node_1          Node_3     Node_5         Node_7
@@ -1621,9 +1621,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 29]
+Hayes, et al.            Expires January 5, 2015               [Page 29]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
 6.3.2.  Metrics of interest
@@ -1677,9 +1677,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 30]
+Hayes, et al.            Expires January 5, 2015               [Page 30]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    [ANDREW08]
@@ -1733,9 +1733,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 31]
+Hayes, et al.            Expires January 5, 2015               [Page 31]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    [RFC2883]  Floyd, S., Mahdavi, J., Mathis, M., and M. Podolsky, "An
@@ -1789,9 +1789,9 @@ Appendix A.  Discussions on Traffic
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 32]
+Hayes, et al.            Expires January 5, 2015               [Page 32]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
    loop approaches.  For this test suite, network traffic consists of
@@ -1845,9 +1845,9 @@ Internet-Draft         Common TCP Evaluation Suite             June 2014
 
 
 
-Hayes, et al.           Expires December 27, 2014              [Page 33]
+Hayes, et al.            Expires January 5, 2015               [Page 33]
 
-Internet-Draft         Common TCP Evaluation Suite             June 2014
+Internet-Draft         Common TCP Evaluation Suite             July 2014
 
 
 Authors' Addresses
@@ -1871,12 +1871,14 @@ Authors' Addresses
 
 
    Lachlan L.H. Andrew
-   CAIA Swinburne University of Technology
-   P.O. Box 218, John Street
-   Hawthorn  Victoria 3122
+   Monash University
+   Clayton School of Information Technology
+   Ground Floor, Building 63
+   Monash University Clayton Campus, Wellington Road
+   Clayton  VIC 3800
    Australia
 
-   Email: lachlan.andrew@gmail.com
+   Email: Lachlan.Andrew@monash.edu
 
 
    Sally Floyd
@@ -1899,6 +1901,4 @@ Authors' Addresses
 
 
 
-
-
-Hayes, et al.           Expires December 27, 2014              [Page 34]
+Hayes, et al.            Expires January 5, 2015               [Page 34]
