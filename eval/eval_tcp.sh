@@ -221,13 +221,13 @@ do
     # as this would be dangerous given there is file reuse
     while true;
     do
+	sleep 5
         j=`jobs -p`
 	aj=(${j// / })
-	if [ ${#aj[@]} -lt $Parallel ]
+	if [ ${#aj[@]} -le $Parallel ]
 	then
 	    break
 	fi
-	sleep 2
     done
 done
 
