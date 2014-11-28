@@ -223,7 +223,7 @@ do
     do
         j=`jobs -p`
 	aj=(${j// / })
-	if [ ${#aj[@]} -le $Parallel ]
+	if [ ${#aj[@]} -lt $Parallel ]
 	then
 	    break
 	fi
