@@ -578,7 +578,7 @@ Shuffle instproc shuffle_traces { scale simtime binsecs tmix_base_cv_name \
 	    } else {
 		if {$est_load > $targetload} {
 		    if {$highload != 0.0} {
-			if {$est_load > $highload} {
+			if {$est_load >= $highload} {
 			    incr iterationtrouble
 			} else {
 			    if {$iterationtrouble > 0 } {
@@ -590,7 +590,7 @@ Shuffle instproc shuffle_traces { scale simtime binsecs tmix_base_cv_name \
 		    set lowscale $scale
 		} else {
 		    if {$lowload != 0.0} {
-			if {$est_load < $lowload} {
+			if {$est_load <= $lowload} {
 			    incr iterationtrouble
 			} else {
 			    if {$iterationtrouble > 0 } {
@@ -621,6 +621,7 @@ Shuffle instproc shuffle_traces { scale simtime binsecs tmix_base_cv_name \
 		    puts stderr "  §§§§§ Target load cannot be found with this level of averaging"
 		    set looparound 0
 		}
+		set oldscale $scale
 		if {$lowload == 0.0 || $highload == 0.0} {
 		    set scale [expr $scale + $scale * 0.5*($est_load - $targetload)/$targetload]
 		} else {
@@ -630,9 +631,15 @@ Shuffle instproc shuffle_traces { scale simtime binsecs tmix_base_cv_name \
 			set scale [expr $scale - ($scale - $lowscale)/2.0]
 		    }
 		}
-		puts stderr "== $tmix_base_cv_name"
-		puts stderr "  ¤¤¤¤¤¤ New Scale $scale"
-		# continue with new scale
+		if { abs($oldscale - $scale) < 1e-10 } {
+		    puts stderr "== $tmix_base_cv_name"
+		    puts stderr "  §§§§§ Target load cannot be found with this level of averaging"
+		    set looparound 0
+		} else {
+		    puts stderr "== $tmix_base_cv_name"
+		    puts stderr "  ¤¤¤¤¤¤ New Scale $scale"
+		    # continue with new scale
+		}
 	    }
 	}
     }
